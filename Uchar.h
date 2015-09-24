@@ -22,8 +22,13 @@ const int Uchar_MINOR_VERSION = 8;
 struct  Uchar
 {
     std::vector <unsigned char>  uc_v;
-    Uchar():uc_v(1){};//uc_v[0]='\x0000';};
-    Uchar(std::vector<unsigned char>& c):uc_v(c){};
+    Uchar():uc_v(0){uc_v.reserve(6);};//uc_v[0]='\x0000';};
+    Uchar(std::vector<unsigned char>& c):uc_v(c.size)
+    {   
+        if(c.size>6)    resize(6);//making 6 max size
+        for (size_t i=0; i<uc_v.size(); ++i) 
+        {   uc_v[i]=c[i];   }
+    };
     ~Uchar(){};//if(uc_v.size())uc_v.clear();};
     
     Uchar(unsigned int unicode):uc_v(1)
@@ -38,18 +43,11 @@ struct  Uchar
             if (uc_v.max_size()<x){  }//throw out of memory
             else {  uc_v.resize(x); }   
         }
-        
     };       
  
     Uchar& operator=(const Uchar& x)
     {
-        if (uc_v.size()!=x.uc_v.size()) 
-        {   if (uc_v.size()<x.uc_v.size()) 
-            {   if (uc_v.max_size()<x.uc_v.size()) 
-            {   return *this;};//throw out of memory
-            }
-            uc_v.resize(x.uc_v.size());    
-        }
+        resize(x.uc_v.size());   
         for (size_t i=0; i<uc_v.size(); ++i) 
         {   uc_v[i]=x.uc_v[i];   }
         return *this;
