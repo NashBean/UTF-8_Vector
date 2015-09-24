@@ -17,7 +17,7 @@
 #include <vector>
 
 const int Uchar_MAJOR_VERSION = 0;
-const int Uchar_MINOR_VERSION = 5;
+const int Uchar_MINOR_VERSION = 6;
 
 struct  Uchar
 {
@@ -170,54 +170,14 @@ struct  Uchar
     };
 
     
-    std::string to_uc()
+    const  char* c_str()  
     {
-        if (uc_v.size()==0) 
-        {
-            return '\x0000';
-        }
-        
-        std::string result="";
-        
-        
-        if(uc_v.size()==1)
-        {
-            result+= uc_v[0];
-            return result;
-        }
-        else if(uc_v.size()==2)
-        {
-            result+= uc_v[0];
-            result+= uc_v[1];
-            return result;
-        }
-        else if(uc_v.size()==3)
-        {
-            result+= uc_v[0];
-            result+= uc_v[1];
-            result+= uc_v[2];
-            return result;
-        }
-        else if(uc_v.size()==4)
-        {
-            result+= uc_v[0];
-            result+= uc_v[1];
-            result+= uc_v[2];
-            result+= uc_v[3];
-            return result;
-        }
-        return std::string("Uchar.to_string reached out-of-bounds error");
-    }
-    
-    
-      const  char* c_str()  
-    {
-        if (uc_v.size()==0) 
-        {
-            return '\x0000';
-        }
-        
         short sz=uc_v.size();
+        if (sz==0) 
+        {
+            return '\x0000';
+        }
+        
         char result[sz];
         result[0]= char(uc_v[0]);
         
@@ -261,8 +221,7 @@ struct  Uchar
             result[6]='\n';
         }
         
-        return std::string(result).c_str();
-  }
+    return (const char*)*result; 
     
 };
 
