@@ -23,9 +23,9 @@ struct  Uchar
 {
     std::vector <unsigned char>  uc_v;
     Uchar():uc_v(0){uc_v.reserve(6);};//uc_v[0]='\x0000';};
-    Uchar(std::vector<unsigned char>& c):uc_v(c.size)
+    Uchar(std::vector<unsigned char>& c):uc_v(c.size())
     {   
-        if(c.size>6)    resize(6);//making 6 max size
+        if(c.size()>6)    resize(6);//making 6 max size
         for (size_t i=0; i<uc_v.size(); ++i) 
         {   uc_v[i]=c[i];   }
     };
