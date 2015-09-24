@@ -17,7 +17,7 @@
 #include <vector>
 
 const int Uchar_MAJOR_VERSION = 0;
-const int Uchar_MINOR_VERSION = 6;
+const int Uchar_MINOR_VERSION = 7;
 
 struct  Uchar
 {
@@ -173,54 +173,17 @@ struct  Uchar
     const  char* c_str()  
     {
         short sz=uc_v.size();
-        if (sz==0) 
-        {
-            return '\x0000';
-        }
+        
+        if (sz==0)  {    return '\x0000';     }
         
         char result[sz+1];
-        result[0]= char(uc_v[0]);
         
-        if(sz==1)
+        for (size_t i=0;i<sz; ++i) 
         {
-            result[1]='\n';
+            result[i]= char(uc_v[i]);
         }
-        if(sz==2)
-        {
-            result[1]= char(uc_v[1]);
-            result[2]='\n';
-        }
-        if(sz==3)
-        {
-            result[1]= char(uc_v[1]);
-            result[2]= char(uc_v[2]);
-            result[3]= '\n';
-        }
-        if(sz==4)
-        {
-            result[1]= char(uc_v[1]);
-            result[2]= char(uc_v[2]);
-            result[3]= char(uc_v[3]);
-            result[4]='\n';
-        }
-        if(sz==5)
-        {
-            result[1]= char(uc_v[1]);
-            result[2]= char(uc_v[2]);
-            result[3]= char(uc_v[3]);
-            result[4]=char(uc_v[4]);
-            result[5]='\n';
-        }
-        if(sz==6)
-        {
-            result[1]= char(uc_v[1]);
-            result[2]= char(uc_v[2]);
-            result[3]= char(uc_v[3]);
-            result[4]=char(uc_v[4]);
-            result[5]=char(uc_v[5]);
-            result[6]='\n';
-        }
-        
+        result[sz]='\n';
+       
     return (const char*)*result; 
     
 };
