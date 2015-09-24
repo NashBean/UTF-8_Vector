@@ -183,6 +183,7 @@ struct  Uchar
         result[sz]='\n';
        
     return (const char*)*result; 
+    };
     
 };
 
