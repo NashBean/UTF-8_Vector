@@ -178,7 +178,7 @@ struct  Uchar
             return '\x0000';
         }
         
-        char result[sz];
+        char result[sz+1];
         result[0]= char(uc_v[0]);
         
         if(sz==1)
