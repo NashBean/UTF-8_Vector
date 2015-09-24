@@ -17,13 +17,13 @@
 #include <vector>
 
 const int Uchar_MAJOR_VERSION = 0;
-const int Uchar_MINOR_VERSION = 7;
+const int Uchar_MINOR_VERSION = 8;
 
 struct  Uchar
 {
-    std::vector <unsigned short>  uc_v;
+    std::vector <unsigned char>  uc_v;
     Uchar():uc_v(1){};//uc_v[0]='\x0000';};
-    Uchar(std::vector<unsigned short>& c):uc_v(c){};
+    Uchar(std::vector<unsigned char>& c):uc_v(c){};
     ~Uchar(){};//if(uc_v.size())uc_v.clear();};
     
     Uchar(unsigned int unicode):uc_v(1)
