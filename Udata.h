@@ -10,8 +10,8 @@
 #ifndef iBS_Udata_h
 #define iBS_Udata_h
 
-const int Ustr_MAJOR_VERSION = 0;
-const int Ustr_MINOR_VERSION = 1;
+const int Udata_MAJOR_VERSION = 0;
+const int Udata_MINOR_VERSION = 2;
 
 struct switch_board 
 {
@@ -53,8 +53,8 @@ struct data_v//for UTF-8 formatted data
         {   d_v[i]=x.d_v[i];   }
         return *this;
     };
-
-private:
+    unsigned char operator[](size_t index){return  d_v[index]; };  
+    size_t size(){return d_v.size()}; 
     bool resize(size_t nsize)
     {
         if (d_v.size()!=nsize) 
@@ -86,8 +86,8 @@ struct uint_v//for raw unicodes and others
         {   i_v[i]=x.i_v[i];   }
         return *this;
     };
-    
-private:
+    unsigned int operator[](size_t index){return  i_v[index]; };  
+    size_t size(){return i_v.size()}; 
     bool resize(size_t nsize)
     {
         if (i_v.size()!=nsize) 
