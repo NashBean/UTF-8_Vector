@@ -11,7 +11,7 @@
 #define iBS_Udata_h
 
 const int Udata_MAJOR_VERSION = 0;
-const int Udata_MINOR_VERSION = 2;
+const int Udata_MINOR_VERSION = 3;
 
 struct switch_board 
 {
@@ -45,12 +45,34 @@ struct data_v//for UTF-8 formatted data
         {   d_v[i]=v[i];   }
     };
     ~data_v(){if(d_v.size())d_v.clear();};
-    
     data_v& operator=(const data_v& x)
     {
         if (!resize(x.d_v.size())){return *this;};//out of memory
         for (size_t i=0; i<d_v.size(); ++i) 
         {   d_v[i]=x.d_v[i];   }
+        return *this;
+    };
+    data_v& operator+=(const data_v& x)
+    {
+        size_t i=d_v.size(),i2=0;
+        if (!resize(d_v.size()+x.size())){return *this;};//out of memory
+        for (; i<d_v.size(); ++i) 
+        {   d_v[i]=x[i2++];   }
+        return *this;
+    };
+    data_v& operator=(std::vector<unsigned char>& v)
+    {
+        if (!resize(v.size())){return *this;};//out of memory
+        for (size_t i=0; i<d_v.size(); ++i) 
+        {   d_v[i]=v[i];   }
+        return *this;
+    };
+    data_v& operator+=(std::vector<unsigned char>& v)
+    {
+        size_t i=d_v.size(),i2=0;
+        if (!resize(d_v.size()+v.size())){return *this;};//out of memory
+        for (; i<d_v.size(); ++i) 
+        {   d_v[i]=v[i2++];   }
         return *this;
     };
     unsigned char operator[](size_t index){return  d_v[index]; };  
