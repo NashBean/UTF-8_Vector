@@ -48,6 +48,7 @@ struct  Uchar
         setUnicode(unicode); 
         return *this;
     };
+    size_t size() const  { return uc_v.size(); }; 
     inline void setUnicode(unsigned int& unacode)
     {   
         if (unacode<=0x7f) 
@@ -142,7 +143,7 @@ struct  Uchar
         }  
         else    uc_v[0]=0x00;
     };
-    const  char* c_str()  
+    char* c_str() const 
     {
         short sz=uc_v.size();
         if (sz==0)  {    return '\x0000';     }
@@ -152,7 +153,7 @@ struct  Uchar
             result[i]= char(uc_v[i]);
         }
         result[sz]='\n';
-     return (const char*)*result; 
+     return (char*)*result; 
     };
     
     private:

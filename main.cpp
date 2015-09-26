@@ -8,19 +8,39 @@
 
 #include <iostream>
 #include "Uchar.h"
+#include <bitset>
+
+void display_bits(const Uchar& uc)
+{
+    std::bitset<8>  bs;
+    std::cout << uc.size()<<std::endl;
+    for (size_t i=0; i<uc.size(); ++i) 
+    {   bs=uc.uc_v[i];   std::cout << bs << ' ';}
+    std::cout << std::endl; 
+};
 
 int main (int argc, const char * argv[])
 {
-     unsigned int value= 0x0391;  
-    std::vector<unsigned char> c;
-    Uchar  uc(value);
-    //c=uc.uc_v;
-  //  uc+=value;
-    std::cout << value<<std::endl;
-    std::cout << c.size()<<std::endl;
-        
-     std::cout << uc.uc_v.size()<<std::endl;
-  // std::cout << uc.c_str()<<std::endl;
+    Uchar  uc(0x0391);//Α
+    display_bits(uc);
+    
+    uc=0x00a9;//©
+    display_bits(uc);
+
+    uc=0x2c02;
+    display_bits(uc);
+    
+    uc=0x13a1;
+    display_bits(uc);
+    
+    uc=0x1d230;//
+    display_bits(uc);
+
+    uc=0x03a9;//Ω
+    display_bits(uc);
+    
     return 0;
 }
+
+
 
