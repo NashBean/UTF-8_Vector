@@ -11,8 +11,12 @@
 #define iBS_Udata_h
 
 const int Udata_MAJOR_VERSION = 0;
-const int Udata_MINOR_VERSION = 3;
-
+const int Udata_MINOR_VERSION = 4;
+//* witch works better? 
+#define BitBull unsigned char
+/*/
+struct BitBull { unsigned char  byte; };//8_bit_byte
+//*/
 struct switch_board 
 {
     unsigned int sw;
@@ -34,17 +38,45 @@ struct switch_board
 };
 struct switch_board;
 
+struct small_v 
+{
+    std::vector <BitBull> _v;
+    
+    small_v():_v(0){_v.reserve(6);};
+    small_v(std::vector<BitBull>& v):_v(1)
+    {   
+        resize(v.size());
+        for (size_t i=0; i<_v.size(); ++i) 
+        {   _v[i]=v[i];   }
+    };
+    ~small_v(){if(_v.size())_v.clear();};
+    bool resize(size_t nsize)
+    {
+        if (_v.size()!=nsize) 
+        {   if(nsize>6)         nsize=6;//make6maxSize
+            if(_v.max_size()<nsize){ return false; }//out of memory
+            else {_v.resize(nsize); }   
+        }
+        return true;
+    };  
+};
+
 struct data_v//for UTF-8 formatted data   
 {
-    std::vector <unsigned char>  d_v;
+    std::vector <BitBull>  d_v;
     
     data_v():d_v(0){d_v.reserve(125);};//uc_v[0]='\x0000';};
-    data_v(std::vector<unsigned char>& v):d_v(v.size())
+    data_v(std::vector<BitBull>& v):d_v(v.size())
     {
         for (size_t i=0; i<d_v.size(); ++i) 
         {   d_v[i]=v[i];   }
     };
     ~data_v(){if(d_v.size())d_v.clear();};
+    data_v(data_v& datav):d_v(datav.size())
+    {
+        for (size_t i=0; i<d_v.size(); ++i) 
+        {   d_v[i]=datav.d_v[i];   }
+    };
     data_v& operator=(const data_v& x)
     {
         if (!resize(x.d_v.size())){return *this;};//out of memory
@@ -55,19 +87,19 @@ struct data_v//for UTF-8 formatted data
     data_v& operator+=(const data_v& x)
     {
         size_t i=d_v.size(),i2=0;
-        if (!resize(d_v.size()+x.size())){return *this;};//out of memory
+        if (!resize(d_v.size()+x.d_v.size())){return *this;};//out of memory
         for (; i<d_v.size(); ++i) 
-        {   d_v[i]=x[i2++];   }
+        {   d_v[i]=x.d_v[i2++];   }
         return *this;
     };
-    data_v& operator=(std::vector<unsigned char>& v)
+    data_v& operator=(std::vector<BitBull>& v)
     {
         if (!resize(v.size())){return *this;};//out of memory
         for (size_t i=0; i<d_v.size(); ++i) 
         {   d_v[i]=v[i];   }
         return *this;
     };
-    data_v& operator+=(std::vector<unsigned char>& v)
+    data_v& operator+=(std::vector<BitBull>& v)
     {
         size_t i=d_v.size(),i2=0;
         if (!resize(d_v.size()+v.size())){return *this;};//out of memory
@@ -76,7 +108,7 @@ struct data_v//for UTF-8 formatted data
         return *this;
     };
     unsigned char operator[](size_t index){return  d_v[index]; };  
-    size_t size(){return d_v.size()}; 
+    size_t size(){return d_v.size();}; 
     bool resize(size_t nsize)
     {
         if (d_v.size()!=nsize) 
@@ -109,7 +141,7 @@ struct uint_v//for raw unicodes and others
         return *this;
     };
     unsigned int operator[](size_t index){return  i_v[index]; };  
-    size_t size(){return i_v.size()}; 
+    size_t size(){return i_v.size();}; 
     bool resize(size_t nsize)
     {
         if (i_v.size()!=nsize) 
@@ -122,5 +154,38 @@ struct uint_v//for raw unicodes and others
 };
 struct uint_v;
 
+
+struct ulong_v//for 64 bit conversions
+{
+    std::vector <unsigned long>  i_v;
+    
+    ulong_v():i_v(0){i_v.reserve(30);};
+    ulong_v(std::vector<unsigned long>& v):i_v(v.size())
+    {
+        for (size_t i=0; i<i_v.size(); ++i) 
+        {   i_v[i]=v[i];   }
+    };
+    ~ulong_v(){if(i_v.size())i_v.clear();};
+    
+    ulong_v& operator=(const ulong_v& x)
+    {
+        if (!resize(x.i_v.size())){return *this;};//out of memory
+        for (size_t i=0; i<i_v.size(); ++i) 
+        {   i_v[i]=x.i_v[i];   }
+        return *this;
+    };
+    unsigned int operator[](size_t index){return  i_v[index]; };  
+    size_t size(){return i_v.size();}; 
+    bool resize(size_t nsize)
+    {
+        if (i_v.size()!=nsize) 
+        {   
+            if (i_v.max_size()<nsize){ return false; }//out of memory
+            else {  i_v.resize(nsize); }   
+        }
+        return true;
+    };  
+};
+struct ulong_v;
 
 #endif // iBS_Udata_h
