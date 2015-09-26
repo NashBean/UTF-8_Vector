@@ -16,15 +16,16 @@
 #ifndef iBS_Uchar_h
 #define iBS_Uchar_h
 #include <vector>
+#include "Udata.h"
 
 const int Uchar_MAJOR_VERSION = 0;
-const int Uchar_MINOR_VERSION = 9;
+const int Uchar_MINOR_VERSION = 11;
 
 struct  Uchar
 {
-    std::vector <unsigned char>  uc_v;
+    std::vector <BitBull>  uc_v;
     Uchar():uc_v(0){uc_v.reserve(6);};//uc_v[0]='\x0000';};
-    Uchar(std::vector<unsigned char>& c):uc_v(c.size())
+    Uchar(std::vector<BitBull>& c):uc_v(c.size())
     {   
         if(c.size()>6)    resize(6);//making 6 max size
         for (size_t i=0; i<uc_v.size(); ++i) 
@@ -40,6 +41,11 @@ struct  Uchar
         resize(x.uc_v.size());   
         for (size_t i=0; i<uc_v.size(); ++i) 
         {   uc_v[i]=x.uc_v[i];   }
+        return *this;
+    };
+    Uchar& operator=(unsigned int unicode)
+    {
+        setUnicode(unicode); 
         return *this;
     };
     inline void setUnicode(unsigned int& unacode)
