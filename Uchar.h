@@ -27,7 +27,7 @@ const int Uchar_MINOR_VERSION = 12;
 
 struct  Uchar
 {
-    std::vector <BitBull>  uc_v;//uc_v keeps data in a UTF-8 format.
+    std::vector <BitBull>  uc_v;//always keeps data in a UTF-8 format.
     Uchar():uc_v(0){uc_v.reserve(6);};//uc_v[0]='\x0000';};
     Uchar(std::vector<BitBull>& c):uc_v(c.size())
     {   
@@ -54,6 +54,20 @@ struct  Uchar
     };
     size_t size() const  { return uc_v.size(); };
     void   encode(unsigned int& unicode){setUnicode(unicode);}; 
+    unsigned int decode()//returns a Unicode
+    {
+        unsigned int result=0;
+        if (size()==0) { return result;}
+        if (size()==1) { return (result +=uc_v[0]); }
+        if (size()==2) { result=uc_v[0] & 0x1f; }
+        else if (size()==3) { result=uc_v[0] & 0x0f; }
+        else if (size()==4) { result=uc_v[0] & 0x07; }
+        else if (size()==5) { result=uc_v[0] & 0x03; }
+        else if (size()==6) { result=uc_v[0] & 0x01; }
+        for (size_t i=1; i<size(); ++i) 
+        { result=result<<6; result+=uc_v[i] & 0x3f; }
+        return result;
+    };   
     inline void setUnicode(unsigned int& unicode)
     {   //std::isxdigit(ChatT, const std::local&)??
         if (unicode<=0x7f) 
@@ -173,7 +187,8 @@ struct  Uchar
     //std::string ts="";
     //char jc2[3]="豆";       
     //std::cout<<jc;//dose Not work
-    //ts+=jc2;//dose Not work
+    //ts+=jc2;
+    //std::cout<<ts;//dose Not work
     //char* do not work printing most multi chars??
 /*
     const char* c_str()  //still not working  
