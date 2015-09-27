@@ -19,7 +19,7 @@
 #include "Udata.h"
 
 const int Uchar_MAJOR_VERSION = 0;
-const int Uchar_MINOR_VERSION = 11;
+const int Uchar_MINOR_VERSION = 12;
 
 struct  Uchar
 {
@@ -49,97 +49,97 @@ struct  Uchar
         return *this;
     };
     size_t size() const  { return uc_v.size(); }; 
-    inline void setUnicode(unsigned int& unacode)
+    inline void setUnicode(unsigned int& unicode)
     {   
-        if (unacode<=0x7f) 
+        if (unicode<=0x7f) 
         {
             resize(1);    
-            uc_v[0]=unacode;
+            uc_v[0]=unicode;
         }  
-        else if (unacode>=0x80 && unacode<=0x07ff) 
+        else if (unicode>=0x80 && unicode<=0x07ff) 
         {
             resize(2);    
             unsigned char temp;     
-            temp=unacode;
+            temp=unicode;
             uc_v[1]=temp&0x3f;
             uc_v[1]=uc_v[1]|0x80;
-            temp=unacode>>6;
+            temp=unicode>>6;
             uc_v[0]=temp&0x1f;
-            uc_v[0]=uc_v[0]|0xc0;//'\xc0';
+            uc_v[0]=uc_v[0]|0xc0;
         }  
-        else if (unacode>=0x0800 && unacode<=0xffff) 
+        else if (unicode>=0x0800 && unicode<=0xffff) 
         {
             resize(3);    
             unsigned char temp;     
-            temp=unacode;
+            temp=unicode;
             uc_v[2]=temp&0x3f;
             uc_v[2]=uc_v[2]|0x80;
-            temp=unacode>>6;
+            temp=unicode>>6;
             uc_v[1]=temp&0x3f;
             uc_v[1]=uc_v[1]|0x80;
-            temp=unacode>>12;
-            uc_v[0]=temp&0x1f;
-            uc_v[0]=uc_v[0]|0xc0;
+            temp=unicode>>12;
+            uc_v[0]=temp&0x0f;//was 1f
+            uc_v[0]=uc_v[0]|0xe0;//was c0 
         }  
-        else if(unacode>=0x010000 && unacode<=0x1fffff) 
+        else if(unicode>=0x010000 && unicode<=0x1fffff) 
         {
             resize(4);
             unsigned char temp;     
-            temp=unacode;
+            temp=unicode;
             uc_v[3]=temp&0x3f;
             uc_v[3]=uc_v[3]|0x80;
-            temp=unacode>>6;
+            temp=unicode>>6;
             uc_v[2]=temp&0x3f;
             uc_v[2]=uc_v[2]|0x80;
-            temp=unacode>>12;
+            temp=unicode>>12;
             uc_v[1]=temp&0x3f;
             uc_v[1]=uc_v[1]|0x80;
-            temp=unacode>>18;
-            uc_v[0]=temp&0x1f;
-            uc_v[0]=uc_v[0]|0xc0;
+            temp=unicode>>18;
+            uc_v[0]=temp&0x07;//was 1f
+            uc_v[0]=uc_v[0]|0xf0;//was c0
         }  
-        else if(unacode>=0x200000 && unacode<=0x03ffffff) 
+        else if(unicode>=0x200000 && unicode<=0x03ffffff) 
         {
             resize(5);
             unsigned char temp;     
-            temp=unacode;
+            temp=unicode;
             uc_v[4]=temp & 0x3f;
             uc_v[4]=uc_v[4]|0x80;
-            temp=unacode>>6;
+            temp=unicode>>6;
             uc_v[3]=temp & 0x3f;
             uc_v[3]=uc_v[3]|0x80;
-            temp=unacode>>12;
+            temp=unicode>>12;
             uc_v[2]=temp & 0x3f;
             uc_v[2]=uc_v[2]|0x80;
-            temp=unacode>>18;
+            temp=unicode>>18;
             uc_v[1]=temp & 0x3f;
             uc_v[1]=uc_v[1]|0x80;
-            temp=unacode>>24;
-            uc_v[0]=temp&0x1f;
-            uc_v[0]=uc_v[0]|0xc0;
+            temp=unicode>>24;
+            uc_v[0]=temp&0x03;//was 1f
+            uc_v[0]=uc_v[0]|0xf8;//was c0
         }  
-        else if(unacode>=0x04000000 && unacode<=0x7fffffff) 
+        else if(unicode>=0x04000000 && unicode<=0x7fffffff) 
         {
             resize(6);
             unsigned char temp;     
-            temp=unacode;
+            temp=unicode;
             uc_v[5]=temp & 0x3f;
             uc_v[5]=uc_v[5]|0x80;
-            temp=unacode>>6;
+            temp=unicode>>6;
             uc_v[4]=temp & 0x3f;
             uc_v[4]=uc_v[4]|0x80;
-            temp=unacode>>12;
+            temp=unicode>>12;
             uc_v[3]=temp & 0x3f;
             uc_v[3]=uc_v[3]|0x80;
-            temp=unacode>>18;
+            temp=unicode>>18;
             uc_v[2]=temp & 0x3f;
             uc_v[2]=uc_v[2]|0x80;
-            temp=unacode>>24;
+            temp=unicode>>24;
             uc_v[1]=temp & 0x3f;
             uc_v[1]=uc_v[1]|0x80;
-            temp=unacode>>30;
-            uc_v[0]=temp&0x1f;
-            uc_v[0]=uc_v[0]|0xc0;
+            temp=unicode>>30;
+            uc_v[0]=temp&0x01;//was wrong
+            uc_v[0]=uc_v[0]|0xfc;//was wrong
         }  
         else    uc_v[0]=0x00;
     };
