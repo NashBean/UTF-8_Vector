@@ -17,17 +17,17 @@
 #define iBS_Uchar_h
 #include <vector>
 #include <string>
+#include<sstream>
 
 #include "Udata.h"
 
 const int Uchar_MAJOR_VERSION = 0;
 const int Uchar_MINOR_VERSION = 12;
 
-//Uchar keeps data in a UTF-8 format.
-//
+
 struct  Uchar
 {
-    std::vector <BitBull>  uc_v;
+    std::vector <BitBull>  uc_v;//uc_v keeps data in a UTF-8 format.
     Uchar():uc_v(0){uc_v.reserve(6);};//uc_v[0]='\x0000';};
     Uchar(std::vector<BitBull>& c):uc_v(c.size())
     {   
@@ -164,10 +164,10 @@ struct  Uchar
     {
         if (uc_v.size()==0) 
         { return 0x00; }
-        std::string result="";
+        std::stringstream result;//="";
         for (size_t i=0; i<uc_v.size(); ++i) 
-        {    result+= char(uc_v[i]); }
-        return result;
+        {    result<< char(uc_v[i]); }
+        return result.str();
     };
     
     //std::string ts="";
