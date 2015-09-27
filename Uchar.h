@@ -23,6 +23,8 @@
 const int Uchar_MAJOR_VERSION = 0;
 const int Uchar_MINOR_VERSION = 12;
 
+//Uchar keeps data in a UTF-8 format.
+//
 struct  Uchar
 {
     std::vector <BitBull>  uc_v;
@@ -50,7 +52,8 @@ struct  Uchar
         setUnicode(unicode); 
         return *this;
     };
-    size_t size() const  { return uc_v.size(); }; 
+    size_t size() const  { return uc_v.size(); };
+    void   encode(unsigned int& unicode){setUnicode(unicode);}; 
     inline void setUnicode(unsigned int& unicode)
     {   //std::isxdigit(ChatT, const std::local&)??
         if (unicode<=0x7f) 
@@ -165,7 +168,7 @@ struct  Uchar
         for (size_t i=0; i<uc_v.size(); ++i) 
         {    result+= char(uc_v[i]); }
         return result;
-    }
+    };
     
     //std::string ts="";
     //char jc2[3]="豆";       
