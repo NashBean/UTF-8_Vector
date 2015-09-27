@@ -16,6 +16,8 @@
 #ifndef iBS_Uchar_h
 #define iBS_Uchar_h
 #include <vector>
+#include <string>
+
 #include "Udata.h"
 
 const int Uchar_MAJOR_VERSION = 0;
@@ -31,7 +33,7 @@ struct  Uchar
         for (size_t i=0; i<uc_v.size(); ++i) 
         {   uc_v[i]=c[i];   }
     };
-    ~Uchar(){};//if(uc_v.size())uc_v.clear();};
+    ~Uchar(){if(uc_v.size())uc_v.clear();};
     Uchar(unsigned int unicode):uc_v(1)
     {   
         setUnicode(unicode); 
@@ -50,11 +52,11 @@ struct  Uchar
     };
     size_t size() const  { return uc_v.size(); }; 
     inline void setUnicode(unsigned int& unicode)
-    {   
+    {   //std::isxdigit(ChatT, const std::local&)??
         if (unicode<=0x7f) 
         {
             resize(1);    
-            uc_v[0]=unicode;
+            uc_v[0]=  unicode;
         }  
         else if (unicode>=0x80 && unicode<=0x07ff) 
         {
@@ -143,18 +145,53 @@ struct  Uchar
         }  
         else    uc_v[0]=0x00;
     };
-    char* c_str() const 
+    
+    bool appendtostr(std::string& str)
     {
-        short sz=uc_v.size();
-        if (sz==0)  {    return '\x0000';     }
+        try {
+            for (size_t i=0; i<uc_v.size(); ++i) 
+            {    str+= uc_v[i]; }
+        } catch (...) {
+            return false;
+        }
+         return true;
+    };
+    
+    std::string str()
+    {
+        if (uc_v.size()==0) 
+        { return 0x00; }
+        std::string result="";
+        for (size_t i=0; i<uc_v.size(); ++i) 
+        {    result+= char(uc_v[i]); }
+        return result;
+    }
+    
+    //std::string ts="";
+    //char jc2[3]="豆";       
+    //std::cout<<jc;//dose Not work
+    //ts+=jc2;//dose Not work
+    //char* do not work printing most multi chars??
+/*
+    const char* c_str()  //still not working  
+    {
+        size_t sz=uc_v.size();
+        if (sz==0)  { return 0x0000; }// '\x0000'
         char result[sz+1];
+        //std::string result  ="";
         for (size_t i=0;i<sz; ++i) 
         {
+            //result+= char(uc_v[i]);
             result[i]= char(uc_v[i]);
+         //   result[i]= uc_v[i];
         }
-        result[sz]='\n';
-     return (char*)*result; 
+      //  result[sz]='\n';
+      //  const  char*    r=result;
+     //   return r;
+     return (const char*)*result; 
+      //  return result.c_str();
     };
+//*/
     
     private:
         void resize(size_t x)

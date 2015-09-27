@@ -13,7 +13,7 @@
 const int Udata_MAJOR_VERSION = 0;
 const int Udata_MINOR_VERSION = 4;
 //* witch works better? 
-#define BitBull unsigned char
+#define BitBull uint8_t    //unsigned char
 /*/
 struct BitBull { unsigned char  byte; };//8_bit_byte
 //*/
