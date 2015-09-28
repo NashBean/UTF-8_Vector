@@ -21,14 +21,15 @@
 const int Uchar_MAJOR_VERSION = 0;
 const int Uchar_MINOR_VERSION = 14;
 
-#define BitBull uint8_t    //unsigned char
-
+//#define BitBull uint8_t    //unsigned char
+namespace iBS 
+{
 struct  Uchar
 {
-    std::vector <BitBull>  ref;//always keeps data in a UTF-8 format.
+    std::vector <unsigned char>  ref;//always keeps data in a UTF-8 format.
     
     Uchar():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
-    Uchar(std::vector<BitBull>& c):ref(c.size())
+    Uchar(std::vector<unsigned char>& c):ref(c.size())
     {   
         if(c.size()>6)    resize(6);//making 6 max size
         for (size_t i=0; i<ref.size(); ++i) 
@@ -218,6 +219,9 @@ struct  Uchar
         }
     };       
 };
-struct Uchar; 
+
+    
+    
+}//end of namespace iBS 
 
 #endif // iBS_Uchar_h
