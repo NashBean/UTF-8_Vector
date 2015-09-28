@@ -12,6 +12,9 @@
 #ifndef iBS_Ufunc_h//  Unicode and UTF-8 Functions.
 #define iBS_Ufunc_h//  Also yoUr Funk :)   
 
+const int Ufunc_MAJOR_VERSION = 0;
+const int Ufunc_MINOR_VERSION = 2;
+
 namespace iBS 
 {
     
@@ -25,14 +28,10 @@ public://-----------------------------
     bool isOn(unsigned char byte, short index)//right2left index 
     { return (byte & 1<<index) };
 
-    bool isLeadByte(unsigned char byte)
-    { return (byte & 0x80)==0; };
-    
-    bool isTrailByte(unsigned char byte)
-    { return (byte & 0x80)&&(byte & 0x40==0); };
-
-    short ByteCount(unsigned char byte) //has tobe lead byte
-    {//  return  0 if not lead byte 
+    //bool isLeadByte(unsigned char byte) //use ByteCount 
+    //{ return (byte & 0x80)==0; };
+    short ByteCount(unsigned char byte) 
+    {//  returns 0 if not lead byte or not UTF-8 formated 
         if ((byte & 0x80)==0) { return 1; }
         short result=0;
         if (byte & 0x80) result++;
@@ -48,6 +47,10 @@ public://-----------------------------
         if (byte & 0x02) return 0;//this was not UTF-8 format  
         return result;
     };
+    
+    bool isTrailByte(unsigned char byte)
+    { return (byte & 0x80)&&(byte & 0x40==0); };
+
 };
 
 
