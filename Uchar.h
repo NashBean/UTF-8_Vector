@@ -18,10 +18,9 @@
 #include <string>
 #include <sstream>
 
-const int Uchar_MAJOR_VERSION = 0;
-const int Uchar_MINOR_VERSION = 14;
+const int Uchar_MAJOR_VERSION = 1;
+const int Uchar_MINOR_VERSION = 0;
 
-//#define BitBull uint8_t    //unsigned char
 namespace iBS 
 {
 struct  Uchar
@@ -30,7 +29,7 @@ struct  Uchar
     
     Uchar():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
     Uchar(std::vector<unsigned char>& c):ref(c.size())
-    {   
+    {   // should I just allacate here?
         if(c.size()>6)    resize(6);//making 6 max size
         for (size_t i=0; i<ref.size(); ++i) 
         {   ref[i]=c[i];   }
@@ -69,7 +68,7 @@ struct  Uchar
         return result;
     };   
     inline void setUnicode(unsigned int& unicode)
-    {  
+    { //converts unicode into UTF-8 formatted Uchar  
         if (unicode<=0x7f) 
         {
             resize(1);    
@@ -178,36 +177,9 @@ struct  Uchar
         std::stringstream result;
         try { for (size_t i=0; i<ref.size(); ++i) 
                 { result<< char(ref[i]); } } 
-        catch (...) { return "Uchar.str:error"; }
+        catch (...) { return "str:error"; }
         return result.str();
     };
-    
-    //std::string ts="";
-    //char jc2[3]="豆";       
-    //std::cout<<jc;//dose Not work
-    //ts+=jc2;
-    //std::cout<<ts;//dose Not work
-    //char* do not work printing most multi chars??
-/*
-    const char* c_str()  //still not working  
-    {
-        size_t sz=ref.size();
-        if (sz==0)  { return 0x0000; }// '\x0000'
-        char result[sz+1];
-        //std::string result  ="";
-        for (size_t i=0;i<sz; ++i) 
-        {
-            //result+= char(ref[i]);
-            result[i]= char(ref[i]);
-         //   result[i]= ref[i];
-        }
-      //  result[sz]='\n';
-      //  const  char*    r=result;
-     //   return r;
-     return (const char*)*result; 
-      //  return result.c_str();
-    };
-//*/
     
     private:
         void resize(size_t x)
@@ -219,9 +191,6 @@ struct  Uchar
         }
     };       
 };
-
-    
-    
 }//end of namespace iBS 
 
 #endif // iBS_Uchar_h
