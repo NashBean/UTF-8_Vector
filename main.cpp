@@ -11,7 +11,7 @@
 #include <bitset>
 //#include <locale.h>
 
-void display_bits(Uchar& uc)
+void display_bits(iBS::Uchar& uc)
 {
     std::bitset<8>  bs;
     for (size_t i=0; i<uc.size(); ++i) 
@@ -25,7 +25,7 @@ int main (int argc, const char * argv[])
     std::string ts="";
     
 
-    Uchar  uc(0x41);
+    iBS::Uchar  uc(0x41);
     std::cout <<uc.str() <<' ';
     display_bits(uc);
     uc.appendtostr(ts);
