@@ -9,14 +9,13 @@
 #include <iostream>
 #include "Uchar.h"
 #include <bitset>
-#include <locale.h>
-#include <localcharset.h>
+//#include <locale.h>
 
 void display_bits(Uchar& uc)
 {
     std::bitset<8>  bs;
     for (size_t i=0; i<uc.size(); ++i) 
-    {   bs=uc.uc_v[i];   std::cout << bs << ' ';}
+    {   bs=uc.ref[i];   std::cout << bs << ' ';}
     std::cout << std::endl; 
 };
 
