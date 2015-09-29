@@ -5,6 +5,7 @@ Note: Even though Bjarn Stroustrup was not a direct contributor.  His vector was
 
 UTF-8_Vector Lib Consist:
 
+
 Uchar.h
     Simply by putting this header in your C++ project you can have a container for a single UTF-8 char.
     iBS::Uchar struct v1.0 is ready.
