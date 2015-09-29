@@ -1,5 +1,8 @@
 # UTF-8_Vector
-Creates a UTF-8 vector of <unsigned char> from a Unicode with supporting functions and structs 
+
+Is a UTF-8 Char in C++
+
+Creates a UTF-8 vector of <unsigned char> from a Unicode.
 
 Note: Even though Bjarn Stroustrup was not a direct contributor.  His vector was used and his lectures were a big influence.
 
