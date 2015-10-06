@@ -3,10 +3,10 @@
 //
 //
 //  Created by nash on 9/28/15.
-//  Copyright 2015 iBean Software.
+//  Copyright 2015 iBean Software. All rights reserved.
+//  iBeanSoftware@GMail.com
+//  https://www.facebook.com/iBeanSowtware
 //
-//  Distributed under the Apache License, Version 2.0.
-//  See the accompanying file LICENSE or http://www.apache.org/licenses/LICENSE-2.0.html
 //
 
 #ifndef iBS_Ufunc_h//  Unicode and UTF-8 Functions.
@@ -16,7 +16,7 @@
 
 
 const int Ufunc_MAJOR_VERSION = 0;
-const int Ufunc_MINOR_VERSION = 5;
+const int Ufunc_MINOR_VERSION = 6;
 
 namespace iBS 
 {
