@@ -3,7 +3,8 @@
 //
 //
 //  Created by nash on 9/18/15.
-//  Copyright 2015+ iBean Software.
+//  Copyright© 2015+ iBean Software. All rights reserved.
+//  iBeanSoftware@GMail.com
 //  https://www.facebook.com/iBeanSowtware
 //
 //  a struct to hold a multi length UTF-8 char
@@ -19,7 +20,7 @@
 #include <sstream>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 1;
+const int Uchar_MINOR_VERSION = 2;
 
 namespace iBS 
 {
@@ -206,10 +207,10 @@ struct u8str
             for (size_t i=0; i<ref.size(); ++i) 
                 ref[i].appendtostr(str);
         }
-        
     };
  
 };
+    
     
 //-------------------------------
 //      UsefulFunctions
