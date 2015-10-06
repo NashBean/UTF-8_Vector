@@ -12,24 +12,19 @@
 #ifndef iBS_Ufunc_h//  Unicode and UTF-8 Functions.
 #define iBS_Ufunc_h//  Also yoUr Funk :)   
 
+#include "Uchar.h"
+
+
 const int Ufunc_MAJOR_VERSION = 0;
-const int Ufunc_MINOR_VERSION = 2;
+const int Ufunc_MINOR_VERSION = 3;
 
 namespace iBS 
 {
     
-class BitBull
-{
-    //unsigned char lead_byte;      
-    
-public://-----------------------------
-    //setLeadByte(unsigned char byte){lead_byte=byte};
-    
-    bool isOn(unsigned char byte, short index)//right2left index 
-    { return (byte & 1<<index) };
-
-    //bool isLeadByte(unsigned char byte) //use ByteCount 
-    //{ return (byte & 0x80)==0; };
+   
+    bool isOn(unsigned char byte, short index)
+    { return (byte & 1<<index); };
+    //bool isLeadByte(unsigned char byte); //use ByteCount 
     short ByteCount(unsigned char byte) 
     {//  returns 0 if not lead byte or not UTF-8 formated 
         if ((byte & 0x80)==0) { return 1; }
@@ -49,9 +44,41 @@ public://-----------------------------
     };
     
     bool isTrailByte(unsigned char byte)
-    { return (byte & 0x80)&&(byte & 0x40==0); };
+    { return (byte & 0x80)&&((byte & 0x40)==0); };
+    
+    void display_bits(iBS::Uchar& uc)
+    {
+        std::bitset<8>  bs;
+        for (size_t i=0; i<uc.size(); ++i) 
+        {   bs=uc.ref[i];   std::cout << bs << ' ';}
+        std::cout << std::endl; 
+    };
 
-};
+    void display_bits(unsigned char uc)
+    {
+        std::bitset<8>  bs;
+        bs=uc;   
+        std::cout << uc << bs << std::endl; 
+    };
+    void display_bits(unsigned short us)
+    {
+        std::bitset<16>  bs;
+        bs=us;   
+        std::cout << us << bs << std::endl; 
+    };
+    void display_bits(unsigned int ui)
+    {
+        std::bitset<32>  bs;
+        bs=ui;   
+        std::cout << ui <<'=' <<bs << std::endl; 
+        
+    };
+    void display_bits(int i)
+    {
+        std::bitset<32>  bs;
+        bs=i;   
+        std::cout << i <<'='<< bs << std::endl; 
+    };
 
 
 }//end of iBS namespace  
