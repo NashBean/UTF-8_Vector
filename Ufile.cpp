@@ -3,10 +3,10 @@
 //
 //
 //  Created by nash on 10/6/15.
-//  Copyright 2015 iBean Software.
+//  Copyright© 2015+ iBean Software. All rights reserved.
+//  iBeanSoftware@GMail.com
+//  https://www.facebook.com/iBeanSowtware
 //
-//  Distributed under the Apache License, Version 2.0.
-//  See the accompanying file LICENSE or http://www.apache.org/licenses/LICENSE-2.0.html
 //
 
 #include "Ufile.h"
