@@ -16,7 +16,7 @@
 
 
 const int Ufunc_MAJOR_VERSION = 0;
-const int Ufunc_MINOR_VERSION = 4;
+const int Ufunc_MINOR_VERSION = 5;
 
 namespace iBS 
 {
@@ -47,6 +47,12 @@ namespace iBS
     void display_bits(int i)
     {
         std::bitset<32>  bs;
+        bs=i;   
+        std::cout << i <<'='<< bs << std::endl; 
+    };
+    void display_bits(size_t i)
+    {
+        std::bitset<64>  bs;
         bs=i;   
         std::cout << i <<'='<< bs << std::endl; 
     };

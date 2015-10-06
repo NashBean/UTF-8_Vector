@@ -15,7 +15,7 @@
 
 int main (int argc, const char* argv[])
 {
-    std::bitset<8>  bs=UCHAR_MAX;//???
+    std::bitset<8>  bs=0xff;
     std::string ts="";
     
 
@@ -65,10 +65,10 @@ int main (int argc, const char* argv[])
     int x=33;
     
     iBS::display_bits(x);
-    x=INT16_MAX;
-    iBS::display_bits(x);
-    x=INT32_MAX;
-    iBS::display_bits(x);
+
+    iBS::display_bits(INT16_MAX);
+    iBS::display_bits(INT32_MAX);
+    iBS::display_bits((size_t)INT64_MAX);
     x=9999999999;
     iBS::display_bits(x);
     return 0;
