@@ -19,34 +19,35 @@
 #include <sstream>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 0;
+const int Uchar_MINOR_VERSION = 1;
 
 namespace iBS 
 {
-struct  Uchar
-{
+      //-------
+struct  u8char  //Changed struct name to match C++ standerds
+{     //-------
     std::vector <unsigned char>  ref;//always keeps data in a UTF-8 format.
     
-    Uchar():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
-    Uchar(std::vector<unsigned char>& c):ref(c.size())
+    u8char():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
+    u8char(std::vector<unsigned char>& c):ref(c.size())
     {   // should I just allacate here?
         if(c.size()>6)    resize(6);//making 6 max size
         for (size_t i=0; i<ref.size(); ++i) 
         {   ref[i]=c[i];   }
     };
-    ~Uchar(){if(ref.size())ref.clear();};
-    Uchar(unsigned int unicode):ref(1)
+    ~u8char(){if(ref.size())ref.clear();};
+    u8char(unsigned int unicode):ref(1)
     {   
         setUnicode(unicode); 
     };
-    Uchar& operator=(const Uchar& x)
+    u8char& operator=(const u8char& x)
     {
         resize(x.ref.size());   
         for (size_t i=0; i<ref.size(); ++i) 
         {   ref[i]=x.ref[i];   }
         return *this;
     };
-    Uchar& operator=(unsigned int unicode)
+    u8char& operator=(unsigned int unicode)
     {
         setUnicode(unicode); 
         return *this;
@@ -68,7 +69,7 @@ struct  Uchar
         return result;
     };   
     inline void setUnicode(unsigned int& unicode)
-    { //converts unicode into UTF-8 formatted Uchar  
+    { //converts unicode into UTF-8 formatted u8char  
         if (unicode<=0x7f) 
         {
             resize(1);    
@@ -191,6 +192,62 @@ struct  Uchar
         }
     };       
 };
+      
+struct u8str
+{
+    std::vector<u8char> ref;
+    
+   void append(u8char uc){ref.push_back(uc);};
+    
+    void appendtostr(std::string& str)
+    {
+        if (ref.size()) 
+        {
+            for (size_t i=0; i<ref.size(); ++i) 
+                ref[i].appendtostr(str);
+        }
+        
+    };
+ 
+};
+    
+//-------------------------------
+//      UsefulFunctions
+//-------------------------------
+    //bool isLeadByte(unsigned char byte); //use ByteCount 
+    short ByteCount(unsigned char byte) 
+    {//  returns 0 if not lead byte or not UTF-8 formated 
+        if ((byte & 0x80)==0) { return 1; }
+        short result=0;
+        if (byte & 0x80) result++;
+        if (byte & 0x40) result++;
+        if (result != 2) return 0;//this was not lead byte or not UTF-8 format 
+        else return result;
+        if (byte & 0x10) result++;
+        else return result;
+        if (byte & 0x08) result++;
+        else return result;
+        if (byte & 0x04) result++;  
+        else return result;
+        if (byte & 0x02) return 0;//this was not UTF-8 format  
+        return result;
+    };
+    
+    bool isTrailByte(unsigned char byte)
+    { return (byte & 0x80)&&((byte & 0x40)==0); };
+    
+    void display_bits(iBS::u8char& uc)
+    {
+        std::bitset<8>  bs;
+        for (size_t i=0; i<uc.size(); ++i) 
+        {   bs=uc.ref[i];   std::cout << bs << ' ';}
+        std::cout << std::endl; 
+    };
+    
+    
+    
+    
+    
 }//end of namespace iBS 
 
-#endif // iBS_Uchar_h
+#endif // iBS_u8char_h
