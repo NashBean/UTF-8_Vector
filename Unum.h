@@ -3,8 +3,9 @@
 //
 //
 //  Created by nash on 10/5/15.
-//  Copyright© 2015+ iBean Software.
-//  All rights reserved.
+//  Copyright© 2015+ iBean Software. All rights reserved.
+//  iBeanSoftware@GMail.com
+//  https://www.facebook.com/iBeanSowtware
 //
 
 #ifndef iBS_Unum_h
@@ -15,7 +16,7 @@
 #include <sstream>
 
 const int Unum_MAJOR_VERSION = 0;
-const int Unum_MINOR_VERSION = 1;
+const int Unum_MINOR_VERSION = 2;
 
 namespace iBS
 {
