@@ -20,12 +20,11 @@ Uchar.h
             unsigned int unicode = uc.Decode();   
 
 Ufunc.h 
-    
-    iBS::BitBull
-       - short iBS::BitBull::ByteCount(unsigned char byte) 
+    about to move these to apropret header.
+       - short iBS::ByteCount(unsigned char byte) 
             returns 0 if not lead byte or not UTF-8 formated 
             else returns number of ,8 bit bytes, it takes to contain it. 
-       -  bool iBS::BitBull::isTrailByte(unsigned char byte) 
+       -  bool iBS::isTrailByte(unsigned char byte) 
             returns true if it is a trailing byte in UTF-8 format   
 
 Udat.h  
