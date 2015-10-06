@@ -19,7 +19,7 @@ int main (int argc, const char* argv[])
     std::string ts="";
     
 
-    iBS::Uchar  uc(0x41);
+    iBS::u8char  uc(0x41);
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
     uc.appendtostr(ts);
