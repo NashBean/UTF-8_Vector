@@ -30,10 +30,8 @@ struct raw_u8str
 
 class u8ifile 
 {
-    
-    
 public:
-    void getrow(u8ifile& rff, raw_u8str& cv);    
+    void getraw_v(std::string& fname, raw_u8str& raw_v);    
     
 };
 

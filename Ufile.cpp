@@ -10,3 +10,19 @@
 //
 
 #include "Ufile.h"
+
+
+void iBS::u8ifile::getraw_v(std::string& fname, raw_u8str& raw_v)
+{
+    unsigned char  temp=0;     
+    std::ifstream    inf;
+    
+    inf.open(fname.c_str());
+    raw_v.ref.clear();
+    raw_v.ref.reserve(sizeof(inf));
+    while(inf >> temp)
+    {
+        raw_v.ref.push_back(temp);
+    }
+    inf.close();
+}    

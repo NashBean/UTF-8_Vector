@@ -31,12 +31,14 @@ namespace iBS
         bs=uc;   
         std::cout << uc << bs << std::endl; 
     };
+    
     void display_bits(unsigned short us)
     {
         std::bitset<16>  bs;
         bs=us;   
         std::cout << us << bs << std::endl; 
     };
+    
     void display_bits(unsigned int ui)
     {
         std::bitset<32>  bs;
@@ -44,12 +46,14 @@ namespace iBS
         std::cout << ui <<'=' <<bs << std::endl; 
         
     };
+    
     void display_bits(int i)
     {
         std::bitset<32>  bs;
         bs=i;   
         std::cout << i <<'='<< bs << std::endl; 
     };
+    
     void display_bits(size_t i)
     {
         std::bitset<64>  bs;
