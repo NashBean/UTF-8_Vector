@@ -12,11 +12,12 @@
 #ifndef iBS_Ufunc_h//  Unicode and UTF-8 Functions.
 #define iBS_Ufunc_h//  Also yoUr Funk :)   
 
+#include <bitset>
 #include "Uchar.h"
 
 
 const int Ufunc_MAJOR_VERSION = 0;
-const int Ufunc_MINOR_VERSION = 6;
+const int Ufunc_MINOR_VERSION = 7;
 
 namespace iBS 
 {
@@ -32,6 +33,14 @@ namespace iBS
         std::cout << uc << bs << std::endl; 
     };
     
+    void display_bits(iBS::u8char& uc)
+    {
+        std::bitset<8>  bs;
+        for (size_t i=0; i<uc.size(); ++i) 
+        {   bs=uc.ref[i];   std::cout << bs << ' ';}
+        std::cout << std::endl; 
+    };
+
     void display_bits(unsigned short us)
     {
         std::bitset<16>  bs;
