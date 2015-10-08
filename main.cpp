@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include <bitset>
+//#include <bitset>
 //#include <locale.h>
 #include "Uchar.h"
 #include "Ufunc.h"
@@ -15,7 +15,7 @@
 
 int main (int argc, const char* argv[])
 {
-    std::bitset<8>  bs=0xff;
+  //  std::bitset<8>  bs=0xff;
     std::string ts="";
     
 
