@@ -237,13 +237,6 @@ struct u8str
     bool isTrailByte(unsigned char byte)
     { return (byte & 0x80)&&((byte & 0x40)==0); };
     
-    void display_bits(iBS::u8char& uc)
-    {
-        std::bitset<8>  bs;
-        for (size_t i=0; i<uc.size(); ++i) 
-        {   bs=uc.ref[i];   std::cout << bs << ' ';}
-        std::cout << std::endl; 
-    };
     
     
     

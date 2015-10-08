@@ -11,17 +11,20 @@
 #define iBS_Udata_h
 
 #include "Uchar.h"
-#include "Ustr.h"
+#include <vector>
 
 
 const int Udata_MAJOR_VERSION = 0;
-const int Udata_MINOR_VERSION = 6;
+const int Udata_MINOR_VERSION = 7;
 
-/* witch works better? 
-#define BitBull uint8_t    //unsigned char
-/*/
- //struct BitBull { unsigned char  byte; };//8_bit_byte
- //*/
+namespace iBS 
+{
+    
+
+    struct raw_u8str 
+    {
+        std::vector <unsigned char> ref;
+    };
 
 struct switch_board 
 {
@@ -189,5 +192,7 @@ struct ulong_v//for 64 bit conversions
         return true;
     };  
 };
+    
+};//end of namespace iBS
 
 #endif // iBS_Udata_h
