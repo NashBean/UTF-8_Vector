@@ -3,7 +3,7 @@
 //  UTF-8_Vector
 //
 //  Created by nash on 9/23/15.
-//  Copyright © 2015 iBean_Software. All rights reserved.
+//  Copyright © 2015+ iBeanSoftware. All rights reserved.
 //
 
 #include <iostream>
@@ -68,9 +68,14 @@ int main (int argc, const char* argv[])
 
     iBS::display_bits(INT16_MAX);
     iBS::display_bits(INT32_MAX);
+    iBS::display_bits(-INT32_MAX-1);//==INT32_MIN
+    iBS::display_bits(INT32_MIN);
+    
     iBS::display_bits((size_t)INT64_MAX);
-    x=9999999999;
+    x=2147483647;//max  int
     iBS::display_bits(x);
+    
+    
     return 0;
 }
 
