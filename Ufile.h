@@ -15,23 +15,32 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include "Ufile.h"
+#include "Udata.h"
+
 const int Ufile_MAJOR_VERSION = 0;
-const int Ufile_MINOR_VERSION = 2;
+const int Ufile_MINOR_VERSION = 3;
 
 namespace iBS 
 {
     
-struct raw_u8str 
-{
-    std::vector <unsigned char> ref;
-};
-    enum  file_status{fs_good=0,fs_fail};   
 
 class u8ifile 
 {
 public:
-    void getraw_v(std::string& fname, raw_u8str& raw_v);    
+    void getraw_v(std::string& fname, raw_u8str& raw_v)
+    {
+        unsigned char  temp=0;     
+        std::ifstream    inf;
+        
+        inf.open(fname.c_str());
+        raw_v.ref.clear();
+        raw_v.ref.reserve(sizeof(inf));
+        while(inf >> temp)
+        {
+            raw_v.ref.push_back(temp);
+        }
+        inf.close();
+    };    
     
 };
 
