@@ -15,10 +15,11 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include "Uchar.h"
 #include "Udata.h"
 
 const int Ufile_MAJOR_VERSION = 0;
-const int Ufile_MINOR_VERSION = 5;
+const int Ufile_MINOR_VERSION = 6;
 
 namespace iBS 
 {
@@ -36,16 +37,39 @@ public:
     
     operator bool(){   return fin.fail();  }; 
     bool eof()   {   return fin.eof();  }; 
-    void getraw_v(raw_u8str& raw_v)
+    void getraw_v(u8str& u8_v)
     {
-        unsigned char  temp=0;     
-        //fin.open(fname.c_str());
-       // raw_v.ref.clear();
-        raw_v.ref.reserve(sizeof(fin));
+        unsigned char  temp=0;   
+        u8char   u8temp();
+        unsigned short sz=0;  
+        std::vector<unsigned char> ref; 
+        ref.reserve(6);
+       
+        if (u8_v.ref.size())u8_v.ref.clear();
+        u8_v.ref.reserve(sizeof(fin));
         while(fin >> temp)
-        {//todo_isthisright?
-            raw_v.ref.push_back(temp);
+        {
+            if (isTrailByte(temp)) {
+                ref.push_back(temp);  
+            }
+            else
+            {
+                sz = ByteCount(temp);  
+                if (ref.size()) 
+                {
+                     u8_v.append(u8char(ref));
+                    ref.clear();
+                }
+                ref.resize(sz);
+                ref[0]=temp;
+            }
         }
+        if (ref.size()) 
+        {
+            u8_v.append(u8char(ref));
+            ref.clear();
+        }
+
         fin.close();
     };    
 private:

@@ -15,7 +15,7 @@
 
 
 const int Udata_MAJOR_VERSION = 0;
-const int Udata_MINOR_VERSION = 7;
+const int Udata_MINOR_VERSION = 8;
 
 namespace iBS 
 {
@@ -48,22 +48,22 @@ struct switch_board
 
 struct small_v 
 {
-    std::vector <unsigned char> _v;
+    std::vector <unsigned char> ref;
     
-    small_v():_v(0){_v.reserve(6);};
-    small_v(std::vector<unsigned char>& v):_v(1)
+    small_v():ref(0){ref.reserve(6);};
+    small_v(std::vector<unsigned char>& v):ref(1)
     {   
         resize(v.size());
-        for (size_t i=0; i<_v.size(); ++i) 
-        {   _v[i]=v[i];   }
+        for (size_t i=0; i<ref.size(); ++i) 
+        {   ref[i]=v[i];   }
     };
-    ~small_v(){if(_v.size())_v.clear();};
+    ~small_v(){if(ref.size())ref.clear();};
     bool resize(size_t nsize)
     {
-        if (_v.size()!=nsize) 
+        if (ref.size()!=nsize) 
         {   if(nsize>6)         nsize=6;//make6maxSize
-            if(_v.max_size()<nsize){ return false; }//out of memory
-            else {_v.resize(nsize); }   
+            if(ref.max_size()<nsize){ return false; }//out of memory
+            else {ref.resize(nsize); }   
         }
         return true;
     };  
