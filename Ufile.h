@@ -18,7 +18,7 @@
 #include "Udata.h"
 
 const int Ufile_MAJOR_VERSION = 0;
-const int Ufile_MINOR_VERSION = 4;
+const int Ufile_MINOR_VERSION = 5;
 
 namespace iBS 
 {
