@@ -77,13 +77,22 @@ int main (int argc, const char* argv[])
     iBS::display_bits(x);
     
     
-    iBS::u8ifile infile("https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt");
+    iBS::u8ifile infile("/NASH_OS/NASH_OS/UTF-8_Vector/UTF-8_Vector/TestUTF-8File.txt");
     
     if (infile) 
     {
         iBS::raw_u8str  raw_v;
         infile.getraw_v(raw_v);
         std::cout<<"have data."<<std::endl;
+        
+        std::string result="";
+        for (size_t i=0; i<raw_v.ref.size(); ++i) 
+        {
+            result+= raw_v.ref[i];   
+            
+        }
+        std::cout << result << std::endl;     
+        
         
     }
     

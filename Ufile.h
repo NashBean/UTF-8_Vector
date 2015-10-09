@@ -40,7 +40,7 @@ public:
     {
         unsigned char  temp=0;     
         //fin.open(fname.c_str());
-        raw_v.ref.clear();
+       // raw_v.ref.clear();
         raw_v.ref.reserve(sizeof(fin));
         while(fin >> temp)
         {//todo_isthisright?
