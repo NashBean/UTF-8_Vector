@@ -11,6 +11,7 @@
 //#include <locale.h>
 #include "Uchar.h"
 #include "Ufunc.h"
+#include "Ufile.h"
 
 
 int main (int argc, const char* argv[])
@@ -75,6 +76,16 @@ int main (int argc, const char* argv[])
     x=2147483647;//max  int
     iBS::display_bits(x);
     
+    
+    iBS::u8ifile infile("https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt");
+    
+    if (infile) 
+    {
+        iBS::raw_u8str  raw_v;
+        infile.getraw_v(raw_v);
+        std::cout<<"have data."<<std::endl;
+        
+    }
     
     return 0;
 }

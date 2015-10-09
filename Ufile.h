@@ -18,7 +18,7 @@
 #include "Udata.h"
 
 const int Ufile_MAJOR_VERSION = 0;
-const int Ufile_MINOR_VERSION = 3;
+const int Ufile_MINOR_VERSION = 4;
 
 namespace iBS 
 {
@@ -27,20 +27,29 @@ namespace iBS
 class u8ifile 
 {
 public:
-    void getraw_v(std::string& fname, raw_u8str& raw_v)
+    u8ifile(std::string filename)
+    {   
+        fin.open(filename.c_str());
+        if (fin.fail()) {} 
+    };
+    ~u8ifile(){ if (fin.is_open())  fin.close(); };
+    
+    operator bool(){   return fin.fail();  }; 
+    bool eof()   {   return fin.eof();  }; 
+    void getraw_v(raw_u8str& raw_v)
     {
         unsigned char  temp=0;     
-        std::ifstream    inf;
-        
-        inf.open(fname.c_str());
+        //fin.open(fname.c_str());
         raw_v.ref.clear();
-        raw_v.ref.reserve(sizeof(inf));
-        while(inf >> temp)
-        {
+        raw_v.ref.reserve(sizeof(fin));
+        while(fin >> temp)
+        {//todo_isthisright?
             raw_v.ref.push_back(temp);
         }
-        inf.close();
+        fin.close();
     };    
+private:
+    std::ifstream    fin   ;      
     
 };
 
@@ -59,7 +68,7 @@ class u8ofile
 public:
     u8ofile(std::string filename)
     {   
-             fout.open(filename.c_str());
+        fout.open(filename.c_str());
         if (fout.fail()) {} 
     };
     ~u8ofile(){ if (fout.is_open())  fout.close(); };
@@ -69,10 +78,18 @@ public:
     
     
 private:
-    unsigned char  fstatus;     
     std::ofstream    fout;      
     
 };
+    
+    u8ofile& operator << (u8ofile& out_file , unsigned char& a)
+    {
+        out_file << a;
+        return out_file;
+    };
+    
+    //-----------------------------------------
+
 
 };//end of iBS namespace
 
