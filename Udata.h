@@ -6,6 +6,7 @@
 //  Copyright© 2015+ iBean Software. All rights reserved.
 //  iBeanSoftware@GMail.com
 //  https://www.facebook.com/iBeanSowtware
+//  Out of order
 
 #ifndef iBS_Udata_h
 #define iBS_Udata_h
@@ -24,6 +25,26 @@ namespace iBS
     struct raw_u8str 
     {
         std::vector <unsigned char> ref;
+    };
+    
+    struct small_switch 
+    {
+        unsigned char sw;
+        small_switch():sw(0x0000){};
+        small_switch(unsigned int& v):sw(v){};
+        ~small_switch(){};
+        small_switch& operator=(const small_switch& x)
+        {   sw=x.sw;   return *this;    };
+        bool isOn(unsigned short& index)
+        {
+            if (index>31) index=31;
+            return  !((sw & 1<<index)==0);
+        };  
+        void flip(unsigned short& index)
+        {   
+            if (index<8)  
+            sw=sw^1<<index;    
+        };
     };
 
 struct switch_board 
