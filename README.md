@@ -11,7 +11,6 @@ UTF-8_Vector Lib Consist:
 Simply by putting this header in your C++ project you can have a 
 container for a single UTF-8 char.
 
-
 Uchar.h
     iBS::u8char struct v1.1 is ready.
 
@@ -46,7 +45,6 @@ Unum.h      // under construction, new formate for a compact string number
         bool  is_signed()
         bool has_dec(){return dec_index;};   
         unum& operator=(int& x)
-
 
 Udat.h  
     inop, still under construction.
