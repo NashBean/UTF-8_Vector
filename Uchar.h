@@ -18,9 +18,10 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 2;
+const int Uchar_MINOR_VERSION = 3;
 
 namespace iBS 
 {
@@ -53,23 +54,23 @@ struct  u8char  //Changed struct name to match C++ standerds
         setUnicode(unicode); 
         return *this;
     };
+    u8char& operator=(wchar_t& wc)
+    {
+        
+        //setUnicode(unicode); 
+        return *this;
+    };
     size_t size() const  { return ref.size(); };
     void   encode(unsigned int& unicode){setUnicode(unicode);}; 
-    unsigned int decode()//returns a Unicode
+    
+    bool appendtostr(std::string& str)
     {
-        unsigned int result=0;
-        if (size()==0) { return result;}
-        if (size()==1) { return (result +=ref[0]); }
-        if (size()==2) { result=ref[0] & 0x1f; }
-        else if (size()==3) { result=ref[0] & 0x0f; }
-        else if (size()==4) { result=ref[0] & 0x07; }
-        else if (size()==5) { result=ref[0] & 0x03; }
-        else if (size()==6) { result=ref[0] & 0x01; }
-        for (size_t i=1; i<size(); ++i) 
-        { result=result<<6; result+=ref[i] & 0x3f; }
-        return result;
-    };   
-    inline void setUnicode(unsigned int& unicode)
+        try { for(size_t i=0; i<ref.size(); ++i) 
+                { str+= ref[i]; } } 
+        catch (...) { return false; }
+        return true;
+    };
+    inline void setUnicode(uint32_t unicode)
     { //converts unicode into UTF-8 formatted u8char  
         if (unicode<=0x7f) 
         {
@@ -164,14 +165,6 @@ struct  u8char  //Changed struct name to match C++ standerds
         else    ref[0]=0x00;
     };
     
-    bool appendtostr(std::string& str)
-    {
-        try { for(size_t i=0; i<ref.size(); ++i) 
-                { str+= ref[i]; } } 
-        catch (...) { return false; }
-        return true;
-    };
-    
     std::string str()
     {
         if (ref.size()==0) 
@@ -233,13 +226,92 @@ struct u8str
         if (byte & 0x02) return 0;//this was not UTF-8 format  
         return result;
     };
+    //-------------------------------
     
     bool isTrailByte(unsigned char byte)
     { return (byte & 0x80)&&((byte & 0x40)==0); };
+    //-------------------------------
     
     
+    //  not   working at moment
+    void readu8file(std::string filename,u8str& u8_v)
+    {
+        std::ifstream    fin  ;  
+        fin.open(filename.c_str());
+        if (fin.fail()) {return;} 
+
+        unsigned char  temp=0;   
+        u8char   u8temp;
+        unsigned short sz=0;  
+        std::vector<unsigned char> ref; 
+        ref.reserve(6);
+  
+        
+        if (u8_v.ref.size())u8_v.ref.clear();
+        u8_v.ref.reserve(sizeof(fin));
+        while(fin >> temp)
+        {
+            if (isTrailByte(temp)) {
+                ref.push_back(temp);  
+            }
+            else
+            {
+                sz = ByteCount(temp);  
+                if (ref.size()) 
+                {
+                    u8_v.append(u8char(ref));
+                    ref.clear();
+                }
+                ref.resize(sz);
+                ref[0]=temp;
+            }
+        }
+        if (ref.size()) 
+        {
+            u8_v.append(u8char(ref));
+            ref.clear();
+        }
+        
+        fin.close();
+    };    
+    //-------------------------------
     
+    inline unsigned int decode(u8char& c)//returns a Unicode
+    {
+        unsigned int result=0;
+        if (c.size()==0) { return result;}
+        if (c.size()==1) { return (result +=c.ref[0]); }
+        if (c.size()==2) { result=c.ref[0] & 0x1f; }
+        else if (c.size()==3) { result=c.ref[0] & 0x0f; }
+        else if (c.size()==4) { result=c.ref[0] & 0x07; }
+        else if (c.size()==5) { result=c.ref[0] & 0x03; }
+        else if (c.size()==6) { result=c.ref[0] & 0x01; }
+        for (size_t i=1; i<c.size(); ++i) 
+        { result=result<<6; result+=c.ref[i] & 0x3f; }
+        return result;
+    };   
+    //-------------------------------
     
+    struct unicode
+    {
+        uint32_t    ref;
+    };
+    //-------------------------------
+
+    struct unicode_string
+    {
+        std::vector<uint32_t> ref;   
+        
+        bool appendtostr(std::string& str)
+        {
+            try {u8char u8c=u8char();
+                for(size_t i=0; i<ref.size(); ++i) 
+                { u8c.encode(ref[i]); u8c.appendtostr(str);} } 
+            catch (...) { return false; }
+            return true;
+        };
+        
+    };
     
     
 }//end of namespace iBS 
