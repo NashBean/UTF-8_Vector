@@ -21,7 +21,7 @@
 #include <fstream>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 3;
+const int Uchar_MINOR_VERSION = 4;
 
 namespace iBS 
 {
@@ -216,7 +216,7 @@ struct u8str
         if (byte & 0x80) result++;
         if (byte & 0x40) result++;
         if (result != 2) return 0;//this was not lead byte or not UTF-8 format 
-        else return result;
+      //  else return result;
         if (byte & 0x10) result++;
         else return result;
         if (byte & 0x08) result++;
