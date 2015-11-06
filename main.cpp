@@ -18,6 +18,7 @@ int main (int argc, const char* argv[])
 {
   //  std::bitset<8>  bs=0xff;
     std::string ts="";
+    std::cout << "Stress testing u8char struct." <<std::endl;
     
 
     iBS::u8char  uc(0x41);
@@ -69,33 +70,20 @@ int main (int argc, const char* argv[])
 
     iBS::display_bits(INT16_MAX);
     iBS::display_bits(INT32_MAX);
-    iBS::display_bits(-INT32_MAX-1);//==INT32_MIN
     iBS::display_bits(INT32_MIN);
     
     iBS::display_bits((size_t)INT64_MAX);
     x=2147483647;//max  int
     iBS::display_bits(x);
     
-    
-    iBS::u8ifile infile("/UTF-8_Vector/UTF-8_Vector/TestUTF-8File.txt");
-    
-    if (infile) 
-    {
-        std::cout << sizeof(infile) << std::endl;     
-        iBS::u8str  raw_v;
-        infile.getraw_v(raw_v);
-        std::cout<<"have data."<<std::endl;
-        std::cout << raw_v.ref.size() << std::endl;     
-        std::string result="";
-        for (size_t i=0; i<raw_v.ref.size(); ++i) 
-        {
-            result+= raw_v.ref[i].str();   
-            
-        }
-        std::cout << result << std::endl;     
+    //under construction
+    iBS::u8str  raw_v;
+    iBS::readu8file("TestUTF-8File.txt",raw_v);
+    std::string result="";
+    raw_v.appendtostr(result);
+ 
+    std::cout << result << std::endl;     
         
-        
-    }
     
     return 0;
 }

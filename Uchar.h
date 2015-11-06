@@ -242,7 +242,7 @@ struct u8str
     //-------------------------------
     
     
-    //  not   working at moment
+    //  not tested at moment
     void readu8file(std::string filename,u8str& u8_v)
     {
         std::ifstream    fin  ;  
