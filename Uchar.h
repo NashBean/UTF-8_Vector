@@ -21,10 +21,11 @@
 #include <fstream>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 4;
+const int Uchar_MINOR_VERSION = 5;
 
 namespace iBS 
 {
+#define UnicodeInt uint32_t
       //-------
 struct  u8char  //Changed struct name to match C++ standerds
 {     //-------
@@ -38,7 +39,7 @@ struct  u8char  //Changed struct name to match C++ standerds
         {   ref[i]=c[i];   }
     };
     ~u8char(){if(ref.size())ref.clear();};
-    u8char(unsigned int unicode):ref(1)
+    u8char(UnicodeInt unicode):ref(1)
     {   
         setUnicode(unicode); 
     };
@@ -49,7 +50,7 @@ struct  u8char  //Changed struct name to match C++ standerds
         {   ref[i]=x.ref[i];   }
         return *this;
     };
-    u8char& operator=(unsigned int unicode)
+    u8char& operator=(UnicodeInt unicode)
     {
         setUnicode(unicode); 
         return *this;
@@ -70,7 +71,7 @@ struct  u8char  //Changed struct name to match C++ standerds
         catch (...) { return false; }
         return true;
     };
-    inline void setUnicode(uint32_t unicode)
+    inline void setUnicode(UnicodeInt unicode)
     { //converts unicode into UTF-8 formatted u8char  
         if (unicode<=0x7f) 
         {
@@ -191,8 +192,16 @@ struct u8str
 {
     std::vector<u8char> ref;
     
-   void append(u8char uc){ref.push_back(uc);};
+    void append(u8char uc){ref.push_back(uc);};
     
+    size_t u8char_count(){return ref.size();};
+    size_t unsignedchar_count()
+    {   size_t s=0;
+        for (size_t rs=0;rs<ref.size(); ++rs) 
+        {   s+=ref[rs].ref.size();  }
+        return s;
+    };
+   
     void appendtostr(std::string& str)
     {
         if (ref.size()) 
@@ -223,7 +232,7 @@ struct u8str
         else return result;
         if (byte & 0x04) result++;  
         else return result;
-        if (byte & 0x02) return 0;//this was not UTF-8 format  
+        if (byte & 0x02) return -1;//this was not UTF-8 format  
         return result;
     };
     //-------------------------------
@@ -241,18 +250,20 @@ struct u8str
         if (fin.fail()) {return;} 
 
         unsigned char  temp=0;   
-        u8char   u8temp;
+        u8char   u8temp=u8char();
         unsigned short sz=0;  
         std::vector<unsigned char> ref; 
         ref.reserve(6);
   
         
         if (u8_v.ref.size())u8_v.ref.clear();
-        u8_v.ref.reserve(sizeof(fin));
+       // u8_v.ref.reserve(sizeof(fin));
         while(fin >> temp)
         {
             if (isTrailByte(temp)) {
                 ref.push_back(temp);  
+                --sz;
+                //if(sz<0) // too many TrailBytes
             }
             else
             {
@@ -262,8 +273,9 @@ struct u8str
                     u8_v.append(u8char(ref));
                     ref.clear();
                 }
-                ref.resize(sz);
-                ref[0]=temp;
+                //ref.resize(sz);
+                ref.push_back(temp);
+                --sz;
             }
         }
         if (ref.size()) 
@@ -276,7 +288,7 @@ struct u8str
     };    
     //-------------------------------
     
-    inline unsigned int decode(u8char& c)//returns a Unicode
+    inline UnicodeInt decode(u8char& c)//returns a Unicode
     {
         unsigned int result=0;
         if (c.size()==0) { return result;}
@@ -292,15 +304,9 @@ struct u8str
     };   
     //-------------------------------
     
-    struct unicode
+     struct unicode_string
     {
-        uint32_t    ref;
-    };
-    //-------------------------------
-
-    struct unicode_string
-    {
-        std::vector<uint32_t> ref;   
+        std::vector<UnicodeInt> ref;   
         
         bool appendtostr(std::string& str)
         {
