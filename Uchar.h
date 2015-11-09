@@ -19,9 +19,10 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 5;
+const int Uchar_MINOR_VERSION = 6;
 
 namespace iBS 
 {
@@ -34,7 +35,7 @@ struct  u8char  //Changed struct name to match C++ standerds
     u8char():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
     u8char(std::vector<unsigned char>& c):ref(c.size())
     {   // should I just allacate here?
-        if(c.size()>6)    resize(6);//making 6 max size
+        if(c.size()>6)    ref.resize(6);//making 6 max size
         for (size_t i=0; i<ref.size(); ++i) 
         {   ref[i]=c[i];   }
     };
@@ -57,8 +58,12 @@ struct  u8char  //Changed struct name to match C++ standerds
     };
     u8char& operator=(wchar_t& wc)
     {
-        
-        //setUnicode(unicode); 
+        char temp[6];
+        std::mbstate_t state ;
+        int ret = std::wcrtomb(&temp[0], wc, &state);
+        ref.resize(ret);
+        for (int i=0; i<ret; ++i) 
+            ref[i]=temp[i];
         return *this;
     };
     size_t size() const  { return ref.size(); };
