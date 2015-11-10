@@ -22,7 +22,7 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 6;
+const int Uchar_MINOR_VERSION = 7;
 
 namespace iBS 
 {
@@ -35,7 +35,7 @@ struct  u8char  //Changed struct name to match C++ standerds
     u8char():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
     u8char(std::vector<unsigned char>& c):ref(c.size())
     {   // should I just allacate here?
-        if(c.size()>6)    ref.resize(6);//making 6 max size
+        if(c.size()>6)    resize(6);//making 6 max size
         for (size_t i=0; i<ref.size(); ++i) 
         {   ref[i]=c[i];   }
     };
@@ -69,13 +69,6 @@ struct  u8char  //Changed struct name to match C++ standerds
     size_t size() const  { return ref.size(); };
     void   encode(unsigned int& unicode){setUnicode(unicode);}; 
     
-    bool appendtostr(std::string& str)
-    {
-        try { for(size_t i=0; i<ref.size(); ++i) 
-                { str+= ref[i]; } } 
-        catch (...) { return false; }
-        return true;
-    };
     inline void setUnicode(UnicodeInt unicode)
     { //converts unicode into UTF-8 formatted u8char  
         if (unicode<=0x7f) 
@@ -170,7 +163,23 @@ struct  u8char  //Changed struct name to match C++ standerds
         }  
         else    ref[0]=0x00;
     };
+
+    bool appendtostr(std::string& str)
+    {
+        try { for(size_t i=0; i<ref.size(); ++i) 
+        { str+= ref[i]; } } 
+        catch (...) { return false; }
+        return true;
+    };
     
+    bool appendtostr(std::stringstream& str)
+    {
+        try { for(size_t i=0; i<ref.size(); ++i) 
+        {  str<< char(ref[i]); } } 
+        catch (...) { return false; }
+        return true;
+    };
+
     std::string str()
     {
         if (ref.size()==0) 
@@ -178,7 +187,7 @@ struct  u8char  //Changed struct name to match C++ standerds
         std::stringstream result;
         try { for (size_t i=0; i<ref.size(); ++i) 
                 { result<< char(ref[i]); } } 
-        catch (...) { return "str:error"; }
+        catch (...) { return "u8error"; }
         return result.str();
     };
     
@@ -192,7 +201,9 @@ struct  u8char  //Changed struct name to match C++ standerds
         }
     };       
 };
-      
+//----------------------------------------------------------    
+//
+//----------------------------------------------------------    
 struct u8str
 {
     std::vector<u8char> ref;
@@ -215,22 +226,40 @@ struct u8str
                 ref[i].appendtostr(str);
         }
     };
+
+    std::string str()
+    {
+        if (ref.size()==0) 
+        { return ""; }
+        std::stringstream result;
+        for (size_t i=0; i<ref.size(); ++i) 
+            ref[i].appendtostr(result);
+        
+        return result.str();
+    };
  
 };
     
     
 //-------------------------------
-//      UsefulFunctions
+//      Useful UTF-8 Functions
 //-------------------------------
     //bool isLeadByte(unsigned char byte); //use ByteCount 
+    
+    bool isTrailByte(unsigned char byte)
+    { return (byte & 0x80)&&((byte & 0x40)==0); };
+    //-------------------------------
+    
     short ByteCount(unsigned char byte) 
-    {//  returns 0 if not lead byte or not UTF-8 formated 
+    {//  returns 0 if not lead byte or -1 if not UTF-8 formated 
         if ((byte & 0x80)==0) { return 1; }
         short result=0;
         if (byte & 0x80) result++;
         if (byte & 0x40) result++;
-        if (result != 2) return 0;//this was not lead byte or not UTF-8 format 
-      //  else return result;
+        if (result != 2) 
+        {   if(isTrailByte(byte)) return 0;//this was not lead byte
+            else return -1;//this was not UTF-8 format 
+        }
         if (byte & 0x10) result++;
         else return result;
         if (byte & 0x08) result++;
@@ -242,12 +271,6 @@ struct u8str
     };
     //-------------------------------
     
-    bool isTrailByte(unsigned char byte)
-    { return (byte & 0x80)&&((byte & 0x40)==0); };
-    //-------------------------------
-    
-    
-    //  not tested at moment
     void readu8file(std::string filename,u8str& u8_v)
     {
         std::ifstream    fin  ;  
@@ -262,7 +285,6 @@ struct u8str
   
         
         if (u8_v.ref.size())u8_v.ref.clear();
-       // u8_v.ref.reserve(sizeof(fin));
         while(fin >> temp)
         {
             if (isTrailByte(temp)) {
@@ -278,7 +300,6 @@ struct u8str
                     u8_v.append(u8char(ref));
                     ref.clear();
                 }
-                //ref.resize(sz);
                 ref.push_back(temp);
                 --sz;
             }
@@ -313,6 +334,8 @@ struct u8str
     {
         std::vector<UnicodeInt> ref;   
         
+        void append(u8char uc){};
+        size_t u8char_count(){return ref.size();};
         bool appendtostr(std::string& str)
         {
             try {u8char u8c=u8char();
@@ -321,6 +344,22 @@ struct u8str
             catch (...) { return false; }
             return true;
         };
+        
+        std::string str()
+        {
+            if (ref.size()==0) 
+            { return ""; }
+            std::stringstream result;
+            u8char temp = u8char();
+            for (size_t i=0; i<ref.size(); ++i) 
+            {
+                temp = ref[i];
+                temp.appendtostr(result);
+            }
+            return result.str();
+        };
+        
+        std::vector<UnicodeInt>& vector(){return ref;};
         
     };
     

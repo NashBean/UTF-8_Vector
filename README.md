@@ -4,20 +4,23 @@ Is a UTF-8 Formatted Char in C++
 
 Creates a UTF-8 vector of <unsigned char> from a Unicode.
 
-Note: Even though Bjarn Stroustrup was not a direct contributor.  His vector was used and his lectures were a big influence.
-
 UTF-8_Vector Lib Consist:
 
 Simply by putting the Uchar.h header file in your C++ project you can have a 
 container(iBS::u8char) for a single UTF-8 char.
 
---- Main Header File Uchar.h
+Example line of code that can take in any Unicode
+and store it in a single u8char varible:
+iBS::u8char uc = 0x03a9;//Ω 
+std::cout << uc.str() ;
+
+<***--- Main Header File Uchar.h ---***>
 
     Defines iBS::UnicodeInt as uint32_t
         - UnicodeInt represents a Unicode integer value.
             http://unicode.org/
 
-*** iBS::u8char struct v1.6 is ready and running smooth. ***
+*** iBS::u8char struct v1.7 is ready and running smooth. ***
 
         It is a container that holds a muti-byte charT in UTF-8 format.
         It uses a std::vector to hold 0 - 6 unsigned char s that make up
@@ -40,15 +43,11 @@ container(iBS::u8char) for a single UTF-8 char.
         --- Functions ---
         size_t size() const 
         void   encode(unsigned int& unicode) 
-        bool appendtostr(std::string& str)
         inline void setUnicode(UnicodeInt unicode)
+        bool appendtostr(std::string& str)
+        bool appendtostr(std::stringstream& str)
         std::string str()
         
-           
-        Example line of code that can take in any Unicode
-            and store it in a single u8char varible:
-            iBS::u8char uc = 0x03a9;//Ω 
-            std::cout << uc.str() ;
 
 
 
@@ -62,12 +61,13 @@ container(iBS::u8char) for a single UTF-8 char.
         size_t u8char_count()   //Idea to use for letter count
         size_t unsignedchar_count()
         void appendtostr(std::string& str)
+        std::string str()
 
         
    *** iBS::Global Functions ***
 
         - short iBS::ByteCount(unsigned char byte) 
-            returns 0 if not lead byte or not UTF-8 formated 
+            returns 0 if not lead byte or -1 when not UTF-8 formated 
             else returns number of ,8 bit bytes, it takes to contain it. 
 
         -  bool iBS::isTrailByte(unsigned char byte) 
@@ -83,15 +83,15 @@ container(iBS::u8char) for a single UTF-8 char.
             returning a Unicode as an uint32_t.
             unsigned int unicode = uc.Decode();   
 
-    iBS::unicode_string
+   ******* iBS::unicode_string *******
         A container that holds a vector of UnicodeInt to store raw Unicodes
 
-
-    void append(u8char uc){ref.push_back(uc);};
-
-size_t u8char_count(){return ref.size();};
-size_t unsignedchar_count()
-        - bool iBS::appendtostr(std::string& str)
+        --- Functions ---
+        void append(u8char uc)
+        size_t u8char_count()
+        bool iBS::appendtostr(std::string& str)
+        std::string str()
+        std::vector<UnicodeInt>& vector()
 
 
 
@@ -121,3 +121,6 @@ Unum.h      // under construction, new formate for a compact string number
 Udata.h  
     inop, still under construction.
 
+---------------------------------------------------------------------------------------------
+
+Note: Even though Bjarn Stroustrup was not a direct contributor.  His vector was used and his lectures were a big influence.
