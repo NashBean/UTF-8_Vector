@@ -8,34 +8,62 @@ Note: Even though Bjarn Stroustrup was not a direct contributor.  His vector was
 
 UTF-8_Vector Lib Consist:
 
-Simply by putting this header in your C++ project you can have a 
-container for a single UTF-8 char.
+Simply by putting the Uchar.h header file in your C++ project you can have a 
+container(iBS::u8char) for a single UTF-8 char.
 
-Uchar.h
+--- Main Header File Uchar.h
+
     Defines iBS::UnicodeInt as uint32_t
+        - UnicodeInt represents a Unicode integer value.
 
-    iBS::u8char struct v1.5 is ready and wider then a wchat_t
+*** iBS::u8char struct v1.6 is ready and running smooth. ***
 
-        - size_t size() const 
+        It is a container that holds a muti-byte charT in UTF-8 format.
+        It uses a std::vector to hold 0 - 6 unsigned char s that make up
+        any UTF-8 formatted charT today and all the room Unicode has 
+        reserved to ever use. 
 
-        - Encode from an UnicodeInt to UTF-8 formatted Uchar.
-            iBS::Uchar uc = 0x03a9;//Ω  
+        --- Constructors ---
+        u8char()
+        u8char(std::vector<unsigned char>& c)
+        u8char(UnicodeInt unicode)
 
-        - bool appendtostr(std::string& str)
+        --- Deconstructor ---
+        ~u8char()
+
+        --- Operators ---
+        u8char& operator=(const u8char& x)
+        u8char& operator=(UnicodeInt unicode)
+        u8char& operator=(wchar_t& wc)
+
+        --- Functions ---
+        size_t size() const 
+        void   encode(unsigned int& unicode) 
+        bool appendtostr(std::string& str)
+        inline void setUnicode(UnicodeInt unicode)
+        std::string str()
+        
+           
+        Example line of code that can take in any Unicode
+            and store it in a single u8char varible:
+            iBS::u8char uc = 0x03a9;//Ω 
+            std::cout << uc.str() ;
 
 
-    iBS::u8str
-        - void append(u8char uc);
 
-        - size_t u8char_count();
-            Idea to use for letter count
+    ***  iBS::u8str ***
 
-        - size_t unsignedchar_count()
+        A simple container that holds any UTF-8 formatted string 
 
-        - void appendtostr(std::string& str)
+        --- Functions ---
+
+        void append(u8char uc)
+        size_t u8char_count()   //Idea to use for letter count
+        size_t unsignedchar_count()
+        void appendtostr(std::string& str)
 
         
-    iBS::Global Functions
+   *** iBS::Global Functions ***
 
         - short iBS::ByteCount(unsigned char byte) 
             returns 0 if not lead byte or not UTF-8 formated 
@@ -55,14 +83,15 @@ Uchar.h
             unsigned int unicode = uc.Decode();   
 
     iBS::unicode_string
+        A container that holds a vector of UnicodeInt to store raw Unicodes
 
-        - std::vector<UnicodeInt> ref;   
-            a vector of UnicodeInt to store raw Unicodes
 
+    void append(u8char uc){ref.push_back(uc);};
+
+size_t u8char_count(){return ref.size();};
+size_t unsignedchar_count()
         - bool iBS::appendtostr(std::string& str)
 
-
-l appendtostr(std::string& str)
 
 
 Ufunc.h 
