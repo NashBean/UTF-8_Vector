@@ -1,6 +1,6 @@
 # UTF-8_Vector
 
-Is a UTF-8 Char in C++
+Is a UTF-8 Formatted Char in C++
 
 Creates a UTF-8 vector of <unsigned char> from a Unicode.
 
@@ -15,6 +15,7 @@ container(iBS::u8char) for a single UTF-8 char.
 
     Defines iBS::UnicodeInt as uint32_t
         - UnicodeInt represents a Unicode integer value.
+            http://unicode.org/
 
 *** iBS::u8char struct v1.6 is ready and running smooth. ***
 
