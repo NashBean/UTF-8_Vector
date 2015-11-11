@@ -10,7 +10,7 @@ Simply by putting the Uchar.h header file in your C++ project you can have a
 container(iBS::u8char) for a single UTF-8 char.
 
 Example line of code that can take in any Unicode
-and store it in a single u8char varible:
+and store it in a single u8char vector:
 iBS::u8char uc = 0x03a9;//Ω 
 std::cout << uc.str() ;
 
@@ -20,7 +20,7 @@ std::cout << uc.str() ;
         - UnicodeInt represents a Unicode integer value.
             http://unicode.org/
 
-*** iBS::u8char struct v1.7 is ready and running smooth. ***
+*** iBS::u8char struct v1.8 is ready and running smooth. ***
 
         It is a container that holds a muti-byte charT in UTF-8 format.
         It uses a std::vector to hold 0 - 6 unsigned char s that make up
@@ -86,7 +86,16 @@ std::cout << uc.str() ;
    ******* iBS::unicode_string *******
         A container that holds a vector of UnicodeInt to store raw Unicodes
 
+        Raw Unicodes makes for a good string or file format,
+        UTF-8 if based of Unicode Int,
+        converts easer then UTF-16, no Big and Little Idian,
+        more compact then UTF-32,
+        backwards compadable with ANSII and more.
+
+
         --- Functions ---
+        void append(UnicodeInt uci)
+        void append(char c)
         void append(u8char uc)
         size_t u8char_count()
         bool iBS::appendtostr(std::string& str)

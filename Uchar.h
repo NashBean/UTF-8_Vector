@@ -22,7 +22,7 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 7;
+const int Uchar_MINOR_VERSION = 8;
 
 namespace iBS 
 {
@@ -62,13 +62,12 @@ struct  u8char  //Changed struct name to match C++ standerds
         std::mbstate_t state ;
         int ret = std::wcrtomb(&temp[0], wc, &state);
         ref.resize(ret);
-        for (int i=0; i<ret; ++i) 
+        for (short i=0; i<ret; ++i) 
             ref[i]=temp[i];
         return *this;
     };
     size_t size() const  { return ref.size(); };
     void   encode(unsigned int& unicode){setUnicode(unicode);}; 
-    
     inline void setUnicode(UnicodeInt unicode)
     { //converts unicode into UTF-8 formatted u8char  
         if (unicode<=0x7f) 
@@ -163,7 +162,6 @@ struct  u8char  //Changed struct name to match C++ standerds
         }  
         else    ref[0]=0x00;
     };
-
     bool appendtostr(std::string& str)
     {
         try { for(size_t i=0; i<ref.size(); ++i) 
@@ -171,7 +169,6 @@ struct  u8char  //Changed struct name to match C++ standerds
         catch (...) { return false; }
         return true;
     };
-    
     bool appendtostr(std::stringstream& str)
     {
         try { for(size_t i=0; i<ref.size(); ++i) 
@@ -179,7 +176,6 @@ struct  u8char  //Changed struct name to match C++ standerds
         catch (...) { return false; }
         return true;
     };
-
     std::string str()
     {
         if (ref.size()==0) 
@@ -211,7 +207,7 @@ struct u8str
     void append(u8char uc){ref.push_back(uc);};
     
     size_t u8char_count(){return ref.size();};
-    size_t unsignedchar_count()
+    size_t size()// returns total count of unsigned char
     {   size_t s=0;
         for (size_t rs=0;rs<ref.size(); ++rs) 
         {   s+=ref[rs].ref.size();  }
@@ -316,7 +312,7 @@ struct u8str
     
     inline UnicodeInt decode(u8char& c)//returns a Unicode
     {
-        unsigned int result=0;
+        UnicodeInt result=0;
         if (c.size()==0) { return result;}
         if (c.size()==1) { return (result +=c.ref[0]); }
         if (c.size()==2) { result=c.ref[0] & 0x1f; }
@@ -330,11 +326,32 @@ struct u8str
     };   
     //-------------------------------
     
+    // more compact then UTF-32
+    // less complucated then UTF-16
+    // bases for UTF-8
+    // less compact then ANSII 
      struct unicode_string
     {
         std::vector<UnicodeInt> ref;   
         
-        void append(u8char uc){};
+        void append(UnicodeInt uci)
+        {
+            ref.push_back(uci);
+        };
+        void append(char c)
+        {
+            ref.push_back(c);
+        };
+        void append(wchar_t& wc)
+        {
+            u8char temp = wc;
+            ref.push_back(decode(temp));
+        };
+
+        void append(u8char uc)
+        {
+            ref.push_back(decode(uc));
+        };
         size_t u8char_count(){return ref.size();};
         bool appendtostr(std::string& str)
         {
