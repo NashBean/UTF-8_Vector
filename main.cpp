@@ -21,44 +21,44 @@ int main (int argc, const char* argv[])
     std::cout << "Stress testing u8char struct." <<std::endl;
     
 
-    iBS::u8char  uc(0x41);
+    iBS::u8char  uc((UnicodeInt)0x41);
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
     uc.appendtostr(ts);
     
-    uc=0x03a9;//Ω
+    uc=(UnicodeInt)0x03a9;//Ω
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
     uc.appendtostr(ts);
     
-    uc=0x8c46;
+    uc=(UnicodeInt)0x8c46;
     std::cout<<uc.str()<<' '; 
     iBS::display_bits(uc);
     uc.appendtostr(ts);
     
-    uc=0xa8a0;
+    uc=(UnicodeInt)0xa8a0;
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
     uc.appendtostr(ts);
   //  uc=0x0811;//ࠑ   this one moves out of order
  //   uc.appendtostr(ts);
 
-    uc=0x2b147;
+    uc=(UnicodeInt)0x2b147;
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
     uc.appendtostr(ts);
     
-    uc=0x7f;//max 1 byte Unicode
+    uc=(UnicodeInt)0x7f;//max 1 byte Unicode
     iBS::display_bits(uc);
-    uc=0x07ff;//max 2 byte Unicode
+    uc=(UnicodeInt)0x07ff;//max 2 byte Unicode
     iBS::display_bits(uc);
-    uc=0xffff;//max 3 byte Unicode
+    uc=(UnicodeInt)0xffff;//max 3 byte Unicode
     iBS::display_bits(uc);
-    uc=0x1fffff;//max 4 byte Unicode
+    uc=(UnicodeInt)0x1fffff;//max 4 byte Unicode
     iBS::display_bits(uc);
-    uc=0x03ffffff;//max 5 byte Unicode
+    uc=(UnicodeInt)0x03ffffff;//max 5 byte Unicode
     iBS::display_bits(uc);
-    uc=0x7fffffff;//max Unicode
+    uc=(UnicodeInt)0x7fffffff;//max Unicode
     iBS::display_bits(uc);
     
     std::cout<<ts<<std::endl;

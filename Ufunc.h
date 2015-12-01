@@ -17,7 +17,7 @@
 
 
 const int Ufunc_MAJOR_VERSION = 0;
-const int Ufunc_MINOR_VERSION = 7;
+const int Ufunc_MINOR_VERSION = 8;
 
 namespace iBS 
 {
@@ -40,6 +40,12 @@ namespace iBS
         {   bs=uc.ref[i];   std::cout << bs << ' ';}
         std::cout << std::endl; 
     };
+  //  void display_bits(unsigned char us)
+  //  {
+  //      std::bitset<8>  bs;
+  //      bs=us;   
+  //      std::cout << us << bs << std::endl; 
+  //  };
 
     void display_bits(unsigned short us)
     {
