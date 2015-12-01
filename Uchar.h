@@ -1,6 +1,7 @@
 //
 //  Uchar.h
-//
+//  Get cureent version off Github:
+//  https://github.com/NashBean/UTF-8_Vector/blob/master/Uchar.h
 //
 //  Created by nash on 9/18/15.
 //  Copyright© 2015+ iBean Software. All rights reserved.
@@ -22,7 +23,7 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 8;
+const int Uchar_MINOR_VERSION = 9;
 
 namespace iBS 
 {
@@ -44,6 +45,19 @@ struct  u8char  //Changed struct name to match C++ standerds
     {   
         setUnicode(unicode); 
     };
+    u8char(char ch):ref(1)
+    {   
+        setUnicode((UnicodeInt)ch); 
+    };
+    u8char(wchar_t ch):ref(1)
+    {   
+        char temp[6];
+        std::mbstate_t state ;
+        int ret = std::wcrtomb((&temp[0]), ch, &state);
+        ref.resize(ret);
+        for (short i=0; i<ret; ++i) 
+            ref[i]=temp[i];
+    };
     u8char& operator=(const u8char& x)
     {
         resize(x.ref.size());   
@@ -56,11 +70,16 @@ struct  u8char  //Changed struct name to match C++ standerds
         setUnicode(unicode); 
         return *this;
     };
+    u8char& operator=(char ch)
+    {
+        setUnicode((UnicodeInt)ch); 
+        return *this;
+    };
     u8char& operator=(wchar_t& wc)
     {
         char temp[6];
         std::mbstate_t state ;
-        int ret = std::wcrtomb(&temp[0], wc, &state);
+        int ret = std::wcrtomb((&temp[0]), wc, &state);
         ref.resize(ret);
         for (short i=0; i<ret; ++i) 
             ref[i]=temp[i];
@@ -205,6 +224,7 @@ struct u8str
     std::vector<u8char> ref;
     
     void append(u8char uc){ref.push_back(uc);};
+    void append(char ch){ref.push_back(u8char(ch));};
     
     size_t u8char_count(){return ref.size();};
     size_t size()// returns total count of unsigned char
@@ -326,6 +346,18 @@ struct u8str
     };   
     //-------------------------------
     
+    struct Uchar
+    {
+        UnicodeInt ref;
+        
+        Uchar& operator =(Uchar uch){ref = uch.ref; return *this;};
+        Uchar& operator =(char ch){ref = (UnicodeInt)ch; return *this;};
+        Uchar& operator =(u8char u8ch){ref = decode(u8ch); return *this;};
+        
+        Uchar& operator +(Uchar uch){ref = ref + uch.ref; return *this;};
+        Uchar& operator -(Uchar uch){ref = ref - uch.ref; return *this;};
+    };
+    
     // more compact then UTF-32
     // less complucated then UTF-16
     // bases for UTF-8
@@ -342,11 +374,11 @@ struct u8str
         {
             ref.push_back(c);
         };
-        void append(wchar_t& wc)
-        {
-            u8char temp = wc;
-            ref.push_back(decode(temp));
-        };
+   //     void append(wchar_t& wc)
+    //    {
+          //  u8char temp = wc;
+   //         ref.push_back((decode(u8char(wc))));
+   //     };
 
         void append(u8char uc)
         {
