@@ -11,7 +11,7 @@
 //#include <locale.h>
 #include "Uchar.h"
 #include "Ufunc.h"
-#include "Ufile.h"
+//#include "Ufile.h"
 
 
 int main (int argc, const char* argv[])
