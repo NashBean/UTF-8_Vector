@@ -16,14 +16,15 @@
 
 #ifndef iBS_Uchar_h
 #define iBS_Uchar_h
+
 #include <vector>
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <cwchar>
 
-const int Uchar_MAJOR_VERSION = 1;
-const int Uchar_MINOR_VERSION = 9;
+const int Uchar_MAJOR_VERSION = 2;
+const int Uchar_MINOR_VERSION = 0;
 
 namespace iBS 
 {
@@ -58,7 +59,7 @@ struct  u8char  //Changed struct name to match C++ standerds
         for (short i=0; i<ret; ++i) 
             ref[i]=temp[i];
     };
-    u8char& operator=(const u8char& x)
+    u8char& operator=( u8char const& x)
     {
         resize(x.ref.size());   
         for (size_t i=0; i<ref.size(); ++i) 
@@ -345,72 +346,6 @@ struct u8str
         return result;
     };   
     //-------------------------------
-    
-    struct Uchar
-    {
-        UnicodeInt ref;
-        
-        Uchar& operator =(Uchar uch){ref = uch.ref; return *this;};
-        Uchar& operator =(char ch){ref = (UnicodeInt)ch; return *this;};
-        Uchar& operator =(u8char u8ch){ref = decode(u8ch); return *this;};
-        
-        Uchar& operator +(Uchar uch){ref = ref + uch.ref; return *this;};
-        Uchar& operator -(Uchar uch){ref = ref - uch.ref; return *this;};
-    };
-    
-    // more compact then UTF-32
-    // less complucated then UTF-16
-    // bases for UTF-8
-    // less compact then ANSII 
-     struct unicode_string
-    {
-        std::vector<UnicodeInt> ref;   
-        
-        void append(UnicodeInt uci)
-        {
-            ref.push_back(uci);
-        };
-        void append(char c)
-        {
-            ref.push_back(c);
-        };
-   //     void append(wchar_t& wc)
-    //    {
-          //  u8char temp = wc;
-   //         ref.push_back((decode(u8char(wc))));
-   //     };
-
-        void append(u8char uc)
-        {
-            ref.push_back(decode(uc));
-        };
-        size_t u8char_count(){return ref.size();};
-        bool appendtostr(std::string& str)
-        {
-            try {u8char u8c=u8char();
-                for(size_t i=0; i<ref.size(); ++i) 
-                { u8c.encode(ref[i]); u8c.appendtostr(str);} } 
-            catch (...) { return false; }
-            return true;
-        };
-        
-        std::string str()
-        {
-            if (ref.size()==0) 
-            { return ""; }
-            std::stringstream result;
-            u8char temp = u8char();
-            for (size_t i=0; i<ref.size(); ++i) 
-            {
-                temp = ref[i];
-                temp.appendtostr(result);
-            }
-            return result.str();
-        };
-        
-        std::vector<UnicodeInt>& vector(){return ref;};
-        
-    };
     
     
 }//end of namespace iBS 
