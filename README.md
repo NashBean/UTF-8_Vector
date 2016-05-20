@@ -7,22 +7,26 @@ Creates a UTF-8 vector of <unsigned char> from a Unicode.
 UTF-8_Vector Lib Consist:
 
 Simply by putting the Uchar.h header file in your C++ project you can have a 
-container(iBS::u8char) for a single UTF-8 char.
+iBS::u8char object for a UTF-8 formatted muti char, c++ compliant container.
+Strait from a file into memory in the same format. No converting back and forth.
 
-Example line of code that can take in any Unicode
-and store it in a single u8char vector:
+Can do conversions if needed for example it can take in any Unicode
+and stores it in UTF-8 format using std::vector:
 iBS::u8char uc = 0x03a9;//Ω 
 std::cout << uc.str() ;
 
 <***--- Main Header File Uchar.h ---***>
 
-    Defines iBS::UnicodeInt as uint32_t
-        - UnicodeInt represents a Unicode integer value.
+    Defines iBS::UnicodeInt as uint32_t a 32 bit integer
+
+        - UnicodeInt represents any Unicode integer value.
+
             http://unicode.org/
+            https://en.wikipedia.org/wiki/Unicode
 
-*** iBS::u8char struct v1.8 is ready and running smooth. ***
+*** iBS::u8char struct v2.0 is up and running. ***
 
-        It is a container that holds a muti-byte charT in UTF-8 format.
+        It is a UTF-8 formated container that holds a muti-byte unsigned char.
         It uses a std::vector to hold 0 - 6 unsigned char s that make up
         any UTF-8 formatted charT today and all the room Unicode has 
         reserved to ever use. 
@@ -31,13 +35,12 @@ std::cout << uc.str() ;
         u8char()
         u8char(std::vector<unsigned char>& c)
         u8char(UnicodeInt unicode)
-
-        --- Deconstructor ---
-        ~u8char()
+        u8char(wchar_t ch):ref(1)
 
         --- Operators ---
-        u8char& operator=(const u8char& x)
+        u8char& operator=( u8char const& x) // copy operator
         u8char& operator=(UnicodeInt unicode)
+        u8char& operator=(char ch)
         u8char& operator=(wchar_t& wc)
 
         --- Functions ---
@@ -45,7 +48,7 @@ std::cout << uc.str() ;
         void   encode(unsigned int& unicode) 
         inline void setUnicode(UnicodeInt unicode)
         bool appendtostr(std::string& str)
-        bool appendtostr(std::stringstream& str)
+        bool appendtostr(std::stringstream& str) // faster then std::string
         std::string str()
         
 
@@ -112,23 +115,9 @@ Ufunc.h
     void iBS::display_bits(int i)
     void iBS::display_bits(size_t i)
 
-Unum.h      // under construction, new formate for a compact string number 
+Unum.h     removed in v2.0    
+Udata.h    removed in v2.0
     
-    struct  unum    //unaversal  number
-        //hex = 0x0-0x9==0-9  a==A b==+ c==- d==. e==∞ f==Ω
-        // a0 ff = 0
-        // ac 3d 14 ff = -3.14
-        // ae ff = ∞ 
-        // start() = a+1 = Alfa+1
-        // end() = ff = ΩΩ = Omega
-        unum& operator=(const unum& x)
-        size_t size() const 
-        bool  is_signed()
-        bool has_dec(){return dec_index;};   
-        unum& operator=(int& x)
-
-Udata.h  
-    inop, still under construction.
 
 ---------------------------------------------------------------------------------------------
 
