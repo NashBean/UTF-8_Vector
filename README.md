@@ -24,7 +24,7 @@ std::cout << uc.str() ;
             http://unicode.org/
             https://en.wikipedia.org/wiki/Unicode
 
-*** iBS::u8char struct v2.0 is up and running. ***
+*** iBS::u8char struct v2.2 is up and running. ***
 
         It is a UTF-8 formated container that holds a muti-byte unsigned char.
         It uses a std::vector to hold 0 - 6 unsigned char s that make up
@@ -86,25 +86,83 @@ std::cout << uc.str() ;
             returning a Unicode as an uint32_t.
             unsigned int unicode = uc.Decode();   
 
-   ******* iBS::unicode_string *******
+
+
+        inline UnicodeInt decode(std::vector<char>& c)
+        inline UnicodeInt decode(wchar_t& wch)
+
+
+    *** iBS::uchar  ***
+    Unlike u8char, uchar holds(in memory) the char value as a single byte unsigned 32 bit integer.
+    It also is a standed c++ compliant container that can hold any Unicode.
+    It is acts the same way as the traditional char struct, ecept it holds the larger uint32_t
+    insted of the unsined 8 bit integer.
+
+    --- Constructors ---
+    uchar()
+    uchar(int v) 
+    uchar(long v)
+    uchar(UnicodeInt v)
+    uchar(char v)
+    uchar(uchar const &v)
+    uchar(wchar_t wch)
+
+    --- Operators ---
+    uchar& operator=(int unicode)
+    uchar& operator=(UnicodeInt unicode)
+    uchar& operator=(char ch) 
+    uchar& operator=(uchar const& uch) 
+    uchar& operator=(wchar_t wch)
+
+    bool operator==(int i)
+    bool operator==(UnicodeInt unicode) 
+    bool operator==(char c)
+    bool operator==(uchar uch) 
+
+    bool operator<(UnicodeInt unicode)
+    bool operator>(UnicodeInt unicode)
+    bool operator<=(UnicodeInt unicode)
+    bool operator>=(UnicodeInt unicode) 
+
+    --- Functions ---
+    UnicodeInt get()
+    void set(UnicodeInt v) 
+    void set(uchar uch)
+    void set(wchar_t wch)
+    UnicodeInt lower_case()
+    UnicodeInt upper_case()
+
+
+   ******* iBS::ustr *******
         A container that holds a vector of UnicodeInt to store raw Unicodes
 
         Raw Unicodes makes for a good string or file format,
-        UTF-8 if based of Unicode Int,
+        UTF-8 if based on Unicode Int,
         converts easer then UTF-16, no Big and Little Idian,
         more compact then UTF-32,
         backwards compadable with ANSII and more.
 
 
-        --- Functions ---
-        void append(UnicodeInt uci)
-        void append(char c)
-        void append(u8char uc)
-        size_t u8char_count()
-        bool iBS::appendtostr(std::string& str)
-        std::string str()
-        std::vector<UnicodeInt>& vector()
+    --- Constructors ---
+    ustr()
+    ustr(UnicodeInt unicode):ref(1) { ref[0] = unicode; };
+    ustr(char ch):ref(1) { ref[0] = ch; };
+    ustr(wchar_t wch):ref(1) { ref[0] = wch; };
+    working on ustr(std::vector<unsigned char>& raw_utf8) 
+    working on ustr(unsigned char* raw_utf8) 
+    working on ustr(std::string str):ref(str.size()) 
 
+    --- Operators ---
+    ustr& operator=(ustr const& x)
+    ustr& operator=(char ch)
+    ustr& operator=(wchar_t& wc)
+
+
+        --- Functions ---
+    size_t size() const    
+    std::string str()
+    todo    size_t u8char_count()
+    todo ...
 
 
 Ufunc.h 

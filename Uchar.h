@@ -24,7 +24,7 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 2;
-const int Uchar_MINOR_VERSION = 1;
+const int Uchar_MINOR_VERSION = 2;
 
 namespace iBS 
 {
