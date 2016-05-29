@@ -24,7 +24,7 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 2;
-const int Uchar_MINOR_VERSION = 2;
+const int Uchar_MINOR_VERSION = 3;
 
 namespace iBS 
 {
@@ -34,7 +34,7 @@ struct  u8char  //Changed struct name to match C++ standerds
 {     //-------
     std::vector <unsigned char>  ref;//always keeps data in a UTF-8 format.
     
-    u8char():ref(0){ref.reserve(6);};//ref[0]='\x0000';};
+    u8char():ref(0){ref.reserve(1);};//ref[0]='\x0000';};
     u8char(std::vector<unsigned char>& c):ref(c.size())
     {   // should I just allacate here?
         if(c.size()>6)    resize(6);//making 6 max size
@@ -220,7 +220,9 @@ struct  u8char  //Changed struct name to match C++ standerds
 //----------------------------------------------------------    
 //
 //----------------------------------------------------------    
-struct u8str
+
+    
+typedef struct 
 {
     std::vector<u8char> ref;
     
@@ -255,7 +257,7 @@ struct u8str
         return result.str();
     };
  
-};
+}u8str;
     
     
 //-------------------------------
@@ -298,7 +300,7 @@ struct u8str
         u8char   u8temp=u8char();
         unsigned short sz=0;  
         std::vector<unsigned char> ref; 
-        ref.reserve(6);
+        ref.reserve(1);
   
         
         if (u8_v.ref.size())u8_v.ref.clear();
@@ -459,6 +461,7 @@ struct u8str
         //void set(uint v) { value = v; };
         void set(uchar uch) { value = uch.value; };
         void set(wchar_t wch) { value = decode(wch); };
+        void set(int64_t i64) { set((UnicodeInt)i64); };
         
         uchar& operator=(int unicode){ set((UnicodeInt)unicode); return *this; };
         uchar& operator=(UnicodeInt unicode){ set(unicode); return *this; };
@@ -466,6 +469,7 @@ struct u8str
         uchar& operator=(char ch) { set((UnicodeInt)ch); return *this; };
         uchar& operator=(uchar const& uch) { set(uch); return *this; };
         uchar& operator=(wchar_t wch) { set(wch); return *this; };
+        uchar& operator=(int64_t i64) { set((UnicodeInt)i64); return *this; };
         
         bool operator==(int i) { return (value == i); };
         bool operator==(UnicodeInt unicode) { return (value == unicode); };
@@ -489,7 +493,7 @@ struct u8str
     
     struct ustr
     {
-        ustr():ref(0){ref.reserve(64);};//ref[0]='\x0000';};
+        ustr():ref(0){ref.reserve(1);};//ref[0]='\x0000';};
         // ustr(std::vector<unsigned char>& c):ref(c.size())
         // {   // should I just allacate here?
         //     for (size_t i=0; i<ref.size(); ++i) 
@@ -557,7 +561,7 @@ struct u8str
     //-----------------------------------------------------------------------------
     struct utext
     {
-        utext():ref(0){ref.reserve(2);};
+        utext():ref(0){ref.reserve(1);};
         // ustr(std::vector<unsigned char>& c):ref(c.size())
         // {   // should I just allacate here?
         //     for (size_t i=0; i<ref.size(); ++i) 
