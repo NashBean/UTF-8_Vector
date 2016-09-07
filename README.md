@@ -1,24 +1,24 @@
 # UTF-8_Vector
 # Unicode API for C++
 
-Is a UTF-8 Formatted Char in C++
+Is a UTF-8 Formatted cross-platform CharT, string, and text in C++.
 
-Creates a UTF-8 vector of <unsigned char> from a Unicode.
-
-UTF-8_Vector Lib Consist:
+Creates a UTF-8 vector of <unsigned char> from a char, wchat_t, any unicode value, and std::string.
 
 Simply by putting the Uchar.h header file in your C++ project you can have a 
 iBS::u8char object for a UTF-8 formatted muti char, c++ compliant container.
 Strait from a file into memory in the same format. No converting back and forth.
 
-Can do conversions if needed for example it can take in any Unicode
-and stores it in UTF-8 format using std::vector:
+Can do conversions if needed.
+For example it can take in any Unicode
+and stores it in UTF-8 format:
 iBS::u8char uc = 0x03a9;//Ω 
 std::cout << uc.str() ;
 
 <***--- Main Header File Uchar.h ---***>
 
-    Defines iBS::UnicodeInt as uint32_t a 32 bit integer
+    Defines iBS::UnicodeInt as uint32_t a 32 bit integer,
+    could be changed in one spot into uint64_t.
 
         - UnicodeInt represents any Unicode integer value.
 
