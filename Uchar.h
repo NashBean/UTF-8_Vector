@@ -24,11 +24,11 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 2;
-const int Uchar_MINOR_VERSION = 3;
+const int Uchar_MINOR_VERSION = 4;
 
 namespace iBS 
 {
-#define UnicodeInt uint32_t
+#define UnicodeInt uint64_t
       //-------
 struct  u8char  //Changed struct name to match C++ standerds
 {     //-------
@@ -222,7 +222,7 @@ struct  u8char  //Changed struct name to match C++ standerds
 //----------------------------------------------------------    
 
     
-typedef struct 
+typedef struct u8str
 {
     std::vector<u8char> ref;
     
@@ -257,7 +257,7 @@ typedef struct
         return result.str();
     };
  
-}u8str;
+};
     
     
 //-------------------------------
