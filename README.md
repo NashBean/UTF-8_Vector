@@ -5,7 +5,7 @@
 
 Is a UTF-8 Formatted cross-platform CharT, string, or text in C++.
 Include 64 bit int formatted version of the above.
-Newer Bata Version located: https://github.com/NashBean/UTF-8_Vector/blob/master/Uchar.h
+
 
 Creates a UTF-8 vector of unsigned char from a char, wchat_t, any unicode value, and std::string.
 
@@ -16,12 +16,13 @@ Strait from a file into memory in the same format. No converting back and forth.
 Can do conversions if needed.
 For example it can take in any Unicode
 and stores it in UTF-8 format:
+
 iBS::u8char uc = 0x03a9;//Ω 
 std::cout << uc.str() ;
 
 <***--- Main Header File Uchar.h ---***>
 
-    Defines iBS::UnicodeInt as uint64_t a 32 bit integer,
+    Defines iBS::UnicodeInt as uint64_t a 64 bit integer,
     could be changed in one spot into uint32_t.
 
         - UnicodeInt represents any Unicode integer value.
