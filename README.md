@@ -1,9 +1,11 @@
 # UTF-8_Vector
-# Unicode API for C++
+# Unicode API C++
 # C Like structures: iBS::u8char, iBS::u8str, iBS::u8text
+# With iBS::u8str.str() function that returns a std::string 
 
 Is a UTF-8 Formatted cross-platform CharT, string, or text in C++.
-Include 32 bit int formatted version of the above.
+Include 64 bit int formatted version of the above.
+Newer Bata Version located: https://github.com/NashBean/UTF-8_Vector/blob/master/Uchar.h
 
 Creates a UTF-8 vector of unsigned char from a char, wchat_t, any unicode value, and std::string.
 
@@ -19,8 +21,8 @@ std::cout << uc.str() ;
 
 <***--- Main Header File Uchar.h ---***>
 
-    Defines iBS::UnicodeInt as uint32_t a 32 bit integer,
-    could be changed in one spot into uint64_t.
+    Defines iBS::UnicodeInt as uint64_t a 32 bit integer,
+    could be changed in one spot into uint32_t.
 
         - UnicodeInt represents any Unicode integer value.
 
