@@ -24,7 +24,7 @@
 #include <cwchar>
 
 const int Uchar_MAJOR_VERSION = 2;
-const int Uchar_MINOR_VERSION = 4;
+const int Uchar_MINOR_VERSION = 5;
 
 namespace iBS 
 {
@@ -225,10 +225,16 @@ struct  u8char  //Changed struct name to match C++ standerds
 typedef struct u8str
 {
     std::vector<u8char> ref;
-    
-    void append(u8char uc){ref.push_back(uc);};
-    void append(char ch){ref.push_back(u8char(ch));};
-    
+      
+    u8str():ref(0){ref.reserve(64);};
+    u8str(u8char uc):ref(1){ref.reserve(64); ref[0]=uc;};
+    u8str(char ch):ref(1){ref.reserve(64); ref[0]=u8char(ch);};
+    u8str(wchar_t ch):ref(1){ref.reserve(64); ref[0]=u8char(ch);};
+    u8str(std::stringstream& str):ref(str.size()){if (str.size()) for(size_t i=0; i<ref.size(); ++i) ref[i]=str[i]);};
+    u8str(std::vector<unsigned char>& c):ref(c.size()){for (size_t i=0; i<ref.size(); ++i) ref[i]=c[i];};
+    u8str(std::string& str):ref(str.size()){if (ref.size()) for(size_t i=0; i<ref.size(); ++i) ref[i]=str[i];};
+    ~u8str(){if(ref.size())ref.clear();};
+   
     size_t u8char_count(){return ref.size();};
     size_t size()// returns total count of unsigned char
     {   size_t s=0;
@@ -236,13 +242,29 @@ typedef struct u8str
         {   s+=ref[rs].ref.size();  }
         return s;
     };
-   
-    void appendtostr(std::string& str)
+       
+    void append(u8char uc){ref.push_back(uc);};
+    void append(char ch){ref.push_back(u8char(ch));};
+    void append(wchar_t ch){ref.push_back(u8char(ch));};
+    void append(std::stringstream& str)
     {
         if (ref.size()) 
         {
             for (size_t i=0; i<ref.size(); ++i) 
-                ref[i].appendtostr(str);
+                ref[i].append(str);
+        }
+    };
+    void append(std::vector<unsigned char>& c):ref(c.size())
+    { 
+        for (size_t i=0; i<c.size(); ++i) 
+        {   ref.push_back(c[i]);   }
+    };
+    void append(std::string& str)
+    {
+        if (ref.size()) 
+        {
+            for (size_t i=0; i<ref.size(); ++i) 
+                ref[i].append(str);
         }
     };
 
@@ -252,7 +274,7 @@ typedef struct u8str
         { return ""; }
         std::stringstream result;
         for (size_t i=0; i<ref.size(); ++i) 
-            ref[i].appendtostr(result);
+            ref[i].append(result);
         
         return result.str();
     };
