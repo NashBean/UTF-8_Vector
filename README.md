@@ -1,5 +1,6 @@
 # UTF-8_Vector
 # Unicode API for C++
+# C Like structures: iBS::u8char, iBS::u8str, iBS::u8text
 
 Is a UTF-8 Formatted cross-platform CharT, string, or text in C++.
 Include 32 bit int formatted version of the above.
