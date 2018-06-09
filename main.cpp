@@ -24,29 +24,29 @@ int main (int argc, const char* argv[])
     iBS::u8char  uc((UnicodeInt)0x41);
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
-    uc.appendtostr(ts);
+    uc.append(ts);
     
     uc=(UnicodeInt)0x03a9;//Ω
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
-    uc.appendtostr(ts);
+    uc.append(ts);
     
     uc=(UnicodeInt)0x8c46;
     std::cout<<uc.str()<<' '; 
     iBS::display_bits(uc);
-    uc.appendtostr(ts);
+    uc.append(ts);
     
     uc=(UnicodeInt)0xa8a0;
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
-    uc.appendtostr(ts);
+    uc.append(ts);
   //  uc=0x0811;//ࠑ   this one moves out of order
  //   uc.appendtostr(ts);
 
     uc=(UnicodeInt)0x2b147;
     std::cout <<uc.str() <<' ';
     iBS::display_bits(uc);
-    uc.appendtostr(ts);
+    uc.append(ts);
     
     uc=(UnicodeInt)0x7f;//max 1 byte Unicode
     iBS::display_bits(uc);
@@ -80,7 +80,7 @@ int main (int argc, const char* argv[])
     iBS::u8str  raw_v;
     iBS::readu8file("TestUTF-8File.txt",raw_v);
     std::string result="";
-    raw_v.appendtostr(result);
+    result.append(raw_v);
  
     std::cout << result << std::endl;     
         
