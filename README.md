@@ -3,6 +3,10 @@
 # C Like structures: iBS::u8char, iBS::u8str, iBS::u8text
 # With iBS::u8str.str() function that returns a std::string 
 
+*Used as BatA version for adding new fetures*
+Release Version has been moved and renamed to UTF-8_String.h. 
+Link to current version: https://github.com/iBeanSoftware/iBS_LIB/blob/master/UTF-8_String.h
+
 Is a UTF-8 Formatted cross-platform CharT, string, or text in C++.
 Include 64 bit int formatted version of the above.
 
