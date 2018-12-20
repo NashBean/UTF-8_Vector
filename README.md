@@ -10,7 +10,6 @@ Link to current version: https://github.com/iBeanSoftware/iBS_LIB/blob/master/UT
 Is a UTF-8 Formatted cross-platform CharT, string, or text in C++.
 Include 64 bit int formatted version of the above.
 
-
 Creates a UTF-8 vector of unsigned char from a char, wchat_t, any unicode value, and std::string.
 
 Simply by putting the Uchar.h header file in your C++ project you can have a 
