@@ -9,15 +9,16 @@
 //
 //
 
-#ifndef iBS_Ufunc_h//  Unicode and UTF-8 Functions.
-#define iBS_Ufunc_h//  Also yoUr Funk :)   
+#ifndef iBS_Ufunc_h//  degrading Unicode and UTF-8 Functions.
+#ifndef iBS_Byte_API
+#define iBS_Byte_API//  Also yoUr Funk :)   
 
 #include <bitset>
 #include "Uchar.h"
 
 
-const int Ufunc_MAJOR_VERSION = 0;
-const int Ufunc_MINOR_VERSION = 8;
+const int Byte_API_MAJOR_VERSION = 0;
+const int Byte_API_MINOR_VERSION = 9;
 
 namespace iBS 
 {
@@ -79,4 +80,4 @@ namespace iBS
 
 }//end of iBS namespace  
 
-#endif // iBS_Ufunc_h
+#endif // iBS_Byte_API_h
